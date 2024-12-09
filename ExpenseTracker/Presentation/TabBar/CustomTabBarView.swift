@@ -8,43 +8,32 @@ struct CustomTabView: View {
     }
 
     var body: some View {
-        TabView(selection: $selectedTab) {
-            Tab("Home", systemImage: "house", value: .home) {
-                HomeView()
-                    .ignoresSafeArea(.all, edges: .top)
+
+            TabView(selection: $selectedTab) {
+                Tab("Home", systemImage: "house", value: .home) {
+                    HomeView()
+                }
+
+                Tab("Category", systemImage: "square.grid.2x2", value: .category) {
+                    NavigationStack {
+                        CategoriesView()
+                    }
+                }
+
+                Tab("", image: "plus.circle.fill", value: .add) {
+                    AddExpenseView()
+                }
+
+                Tab("Chart", systemImage: "chart.pie", value: .chart) {
+                    ChartView()
+                }
+
+                Tab("Settings", systemImage: "gear", value: .profile) {
+                    SettingsView()
+                }
             }
 
-            Tab("Category", systemImage: "square.grid.2x2", value: .category) {
-                CategoryView()
-
-            }
-
-            Tab("", image: "plus.circle.fill", value: .add) {
-                AddExpenseView()
-            }
-
-            Tab("Chart", systemImage: "chart.pie", value: .chart) {
-                ChartView()
-            }
-
-            Tab("Profile", systemImage: "person", value: .profile) {
-                ProfileView()
-            }
-        }
         .tint(.indigo)
-    }
-}
-
-struct HomeView: View {
-    var body: some View {
-        Color.red
-    }
-}
-
-struct CategoryView: View {
-    var body: some View {
-        Text("Category View")
-            .navigationTitle("Category")
     }
 }
 
@@ -59,13 +48,6 @@ struct ChartView: View {
     var body: some View {
         Text("Chart View")
             .navigationTitle("Chart")
-    }
-}
-
-struct ProfileView: View {
-    var body: some View {
-        Text("Profile View")
-            .navigationTitle("Profile")
     }
 }
 

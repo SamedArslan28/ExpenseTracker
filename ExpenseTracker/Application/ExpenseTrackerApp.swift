@@ -9,9 +9,23 @@ import SwiftUI
 
 @main
 struct ExpenseTrackerApp: App {
+    @AppStorage("selectedTheme") private var selectedTheme: String = "System Default" // Default theme
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CustomTabView()
+                .environment(\.colorScheme, (resolvedColorScheme ?? .light)) // Apply the selected color scheme
+        }
+    }
+
+    // Helper to resolve the color scheme based on the user's selection
+    private var resolvedColorScheme: ColorScheme? {
+        switch selectedTheme {
+        case "Light":
+            return .light
+        case "Dark":
+            return .dark
+        default:
+            return nil
         }
     }
 }
