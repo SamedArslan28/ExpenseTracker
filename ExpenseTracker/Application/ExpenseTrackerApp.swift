@@ -11,24 +11,13 @@ import SwiftUI
 @main
 struct ExpenseTrackerApp: App {
     @AppStorage("selectedTheme")
-    private var selectedTheme: String = "System Default"
+    private var selectedTheme: Appearance = .system
 
     var body: some Scene {
         WindowGroup {
             CustomTabBarView()
-                .environment(\.colorScheme, (resolvedColorScheme ?? .light))
+                .preferredColorScheme(selectedTheme.colorScheme)
                 .modelContainer(for: TransactionItem.self)
-        }
-    }
-
-    private var resolvedColorScheme: ColorScheme? {
-        switch selectedTheme {
-        case "Light":
-            return .light
-        case "Dark":
-            return .dark
-        default:
-            return nil
         }
     }
 }

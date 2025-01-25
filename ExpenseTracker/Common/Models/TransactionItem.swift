@@ -36,12 +36,12 @@ class TransactionItem {
 }
 
 enum TransactionCategory: String, CaseIterable, Codable {
-    case coffee = "Coffee"
-    case food = "Food"
-    case income = "Income"
-    case other = "Other"
-    case shopping = "Shopping"
-    case travel = "Travel"
+    case coffee = "coffee"
+    case food = "food"
+    case income = "income"
+    case other = "other"
+    case shopping = "shopping"
+    case travel = "travel"
 
     var iconName: String {
         switch self {

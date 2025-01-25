@@ -8,17 +8,13 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @AppStorage("selectedCurrency")
-    private var selectedCurrency: String = "USD"
-    @AppStorage("selectedTheme")
-    private var selectedTheme: String = "Dark"
-    @AppStorage("budget")
-    private var budget: Double = 500.0
-
+    @AppStorage("selectedCurrency") private var selectedCurrency: String = "USD"
+    @AppStorage("selectedTheme") private var selectedTheme: Appearance = .system
+    @AppStorage("budget") private var budget: Double = 500.0
     @State private var showCurrencyPicker: Bool = false
 
     let availableCurrencies: [String] = ["USD", "EUR", "GBP", "TRY", "JPY", "INR"]
-    let themes: [String] = ["Light", "Dark"]
+
 
     var body: some View {
         NavigationView {
@@ -37,8 +33,9 @@ struct SettingsView: View {
                             }
                     }
                     Picker("Theme", selection: $selectedTheme) {
-                        ForEach(themes, id: \.self) {
-                            Text($0)
+                        ForEach(Appearance.allCases) { appearance in
+                            Text(appearance.rawValue.capitalized)
+                                .tag(appearance)
                         }
                     }
                 }
