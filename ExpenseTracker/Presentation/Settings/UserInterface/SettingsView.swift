@@ -8,15 +8,17 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @AppStorage("selectedCurrency") private var selectedCurrency: String = "USD"
-    @AppStorage("selectedTheme") private var selectedTheme: String = "Dark"
-    @AppStorage("notificationsEnabled") private var notificationsEnabled: Bool = true
-    @AppStorage("budget") private var budget: Double = 500.0
+    @AppStorage("selectedCurrency")
+    private var selectedCurrency: String = "USD"
+    @AppStorage("selectedTheme")
+    private var selectedTheme: String = "Dark"
+    @AppStorage("budget")
+    private var budget: Double = 500.0
 
-    @State private var showCurrencyPicker = false
+    @State private var showCurrencyPicker: Bool = false
 
-    let availableCurrencies = ["USD", "EUR", "GBP", "TRY", "JPY", "INR"]
-    let themes = ["Light", "Dark"]
+    let availableCurrencies: [String] = ["USD", "EUR", "GBP", "TRY", "JPY", "INR"]
+    let themes: [String] = ["Light", "Dark"]
 
     var body: some View {
         NavigationView {
@@ -40,33 +42,31 @@ struct SettingsView: View {
                         }
                     }
                 }
-
-                Section(header: Text("Notifications")) {
-                    Toggle("Enable Notifications", isOn: $notificationsEnabled)
-                }
-
                 Section(header: Text("Budget")) {
                     VStack(alignment: .leading) {
                         Text("Set Monthly Budget: $\(Int(budget))")
-                        Slider(value: $budget, in: 100...5000, step: 50)
+                        Slider(value: $budget, in: 100...5_000, step: 50)
                     }
                 }
 
                 Section(header: Text("Data")) {
                     Button("Export Data to CSV") {
+                        // do impl
                     }
                     .foregroundColor(.blue)
 
                     Button("Clear All Data") {
+                        // do impl
                     }
                     .foregroundColor(.red)
                 }
 
                 Section(header: Text("About")) {
                     Button("Help & Support") {
-
+                        // add impl
                     }
                     Button("About App") {
+                        // add impl
                     }
                 }
             }
@@ -77,7 +77,7 @@ struct SettingsView: View {
 
 struct CurrencyPicker: View {
     @Binding var selectedCurrency: String
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss: DismissAction
 
     let currencies: [String]
 
@@ -98,7 +98,7 @@ struct CurrencyPicker: View {
                 }
             }
             .navigationTitle("Select Currency")
-            .onChange(of: selectedCurrency) { oldValue, newValue in
+            .onChange(of: selectedCurrency) { _, _ in
                 dismiss()
             }
         }

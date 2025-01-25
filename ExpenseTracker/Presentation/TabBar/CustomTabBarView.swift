@@ -1,23 +1,17 @@
 import SwiftUI
 
-struct CustomTabView: View {
+struct CustomTabBarView: View {
     @State private var selectedTab: Tabs = .home
 
-    enum Tabs: Hashable {
-        case home, category, add, chart, profile
-    }
-
     var body: some View {
-
+        NavigationStack {
             TabView(selection: $selectedTab) {
                 Tab("Home", systemImage: "house", value: .home) {
                     HomeView()
                 }
 
                 Tab("Category", systemImage: "square.grid.2x2", value: .category) {
-                    NavigationStack {
-                        CategoriesView()
-                    }
+                    CategoriesView()
                 }
 
                 Tab("", image: "plus.circle.fill", value: .add) {
@@ -32,15 +26,8 @@ struct CustomTabView: View {
                     SettingsView()
                 }
             }
-
+        }
         .tint(.indigo)
-    }
-}
-
-struct AddExpenseView: View {
-    var body: some View {
-        Text("Add Expense View")
-
     }
 }
 
@@ -53,6 +40,15 @@ struct ChartView: View {
 
 struct CustomTabView_Previews: PreviewProvider {
     static var previews: some View {
-        CustomTabView()
+        CustomTabBarView()
+            .previewDevice("iPhone 16 Pro")
     }
+}
+
+enum Tabs: Hashable {
+    case add
+    case category
+    case chart
+    case home
+    case profile
 }

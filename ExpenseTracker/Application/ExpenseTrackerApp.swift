@@ -5,19 +5,22 @@
 //  Created by Abdulsamed Arslan on 9.12.2024.
 //
 
+import SwiftData
 import SwiftUI
 
 @main
 struct ExpenseTrackerApp: App {
-    @AppStorage("selectedTheme") private var selectedTheme: String = "System Default" // Default theme
+    @AppStorage("selectedTheme")
+    private var selectedTheme: String = "System Default"
+
     var body: some Scene {
         WindowGroup {
-            CustomTabView()
-                .environment(\.colorScheme, (resolvedColorScheme ?? .light)) // Apply the selected color scheme
+            CustomTabBarView()
+                .environment(\.colorScheme, (resolvedColorScheme ?? .light))
+                .modelContainer(for: TransactionItem.self)
         }
     }
 
-    // Helper to resolve the color scheme based on the user's selection
     private var resolvedColorScheme: ColorScheme? {
         switch selectedTheme {
         case "Light":

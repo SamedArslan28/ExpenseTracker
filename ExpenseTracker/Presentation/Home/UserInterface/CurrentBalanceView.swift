@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct CurrentBalanceView: View {
-    @State var currentBalance: Int = 32465
+    @State private var currentBalance: Int = 32_465
     @AppStorage("selectedCurrency") private var selectedCurrency: String = "USD"
+
     var body: some View {
         VStack {
             Text("Current Balance")
@@ -21,9 +22,9 @@ struct CurrentBalanceView: View {
             Text(Date().formatted(.dateTime.year().month(.wide)))
                 .foregroundStyle(.white)
             HStack {
-                IncomeView(isIncome: true)
+                TransactionsDetailView(isIncome: true)
                 Spacer()
-                IncomeView(isIncome: false)
+                TransactionsDetailView(isIncome: false)
             }
         }
         .padding(50)
