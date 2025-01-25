@@ -17,7 +17,6 @@ struct ExpenseTrackerApp: App {
         WindowGroup {
             CustomTabBarView()
                 .preferredColorScheme(selectedTheme.colorScheme)
-                .modelContainer(for: TransactionItem.self)
         }
     }
 }

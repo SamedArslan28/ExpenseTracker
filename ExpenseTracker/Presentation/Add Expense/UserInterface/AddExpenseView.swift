@@ -1,70 +1,99 @@
-//
-//  SaveView.swift
-//  ExpenseTracker
-//
-//  Created by Abdulsamed Arslan on 9.12.2024.
-//
-
 import SwiftUI
 
 struct AddExpenseView: View {
-    let categories: [TransactionCategory] = TransactionCategory.allCases
-
+    @AppStorage("selectedCurrency") private var selectedCurrency: String = Locale.current.currencySymbol ?? "$"
     @State private var name: String = ""
-    @State private var selectedCategory: TransactionCategory = .income
+    @State private var selectedCategory: TransactionCategory = .other
     @State private var amount: String = ""
     @State private var isExpense: Bool = false
+    @FocusState private var focusedField: Field?
+
+    let categories: [TransactionCategory] = TransactionCategory.allCases
+    let viewModel: AddExpenseViewModel = .init(dataSource: .shared)
 
     var body: some View {
-        VStack {
-            Form {
-                Section("Expense Detail") {
-                    TextField("Name", text: $name)
-                        .autocapitalization(.words)
-                        .textFieldStyle(RoundedTextFieldStyle())
-                }
+        NavigationView {
+            VStack {
+                Form {
+                    Section(header: Text("Expense Details").font(.headline)) {
+                        TextField("Expense Name", text: $name)
+                            .autocapitalization(.words)
+                            .focused($focusedField, equals: .name)
 
-                Picker("Category", selection: $selectedCategory) {
-                    ForEach(categories, id: \.self) { category in
-                        HStack(spacing: 4) {
-                            Label {
-                                Text(category.rawValue.capitalized)
-                                    .foregroundStyle(.red)
-                            } icon: {
-                                Image(systemName: category.iconName)
-                                    .symbolRenderingMode(.palette)
-                                    .foregroundStyle(category.color)
+                        TextField("Amount (\(selectedCurrency))", text: $amount)
+                            .keyboardType(.decimalPad)
+                            .focused($focusedField, equals: .amount)
+                            .toolbar {
+                                ToolbarItemGroup(placement: .keyboard) {
+                                    Spacer()
+                                    Button("Done") {
+                                        focusedField = nil
+                                    }
+                                }
+                            }
+                    }
+
+                    Picker("Category", selection: $selectedCategory) {
+                        ForEach(categories, id: \.self) { category in
+                            HStack(spacing: 4) {
+                                Label {
+                                    Text(category.rawValue.capitalized)
+                                        .foregroundStyle(.red)
+                                } icon: {
+                                    Image(systemName: category.iconName)
+                                        .resizable()
+                                        .symbolRenderingMode(.palette)
+                                        .foregroundStyle(category.color)
+                                }
                             }
                         }
                     }
-                }
-                TextField("Amount", text: $amount)
-                    .keyboardType(.decimalPad)
-            }
 
-            Button(action: saveExpense) {
-                Text("Save Expense")
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .foregroundColor(.white)
-                    .background(name.isEmpty || amount.isEmpty || Double(amount) == 0 ? Color.gray : Color.blue)
-                    .cornerRadius(10)
-                    .padding()
+                    Toggle(isOn: $isExpense) {
+                        Text(isExpense ? "Expense" : "Income")
+                            .fontWeight(.semibold)
+                            .foregroundColor(isExpense ? .red : .green)
+                    }
+                }
+                Spacer()
+
+                Button(action: saveExpense) {
+                    Text("Save Expense")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .foregroundColor(.white)
+                        .background(isSaveButtonEnabled ? Color.blue : Color.gray)
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                }
+                .disabled(!isSaveButtonEnabled)
+                .padding(.bottom, 20)
             }
-            .disabled(name.isEmpty || amount.isEmpty || Double(amount) == 0)
+            .navigationTitle("Add Expense")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .tint(.black)
+    }
+
+    private var isSaveButtonEnabled: Bool {
+        !name.isEmpty && !amount.isEmpty && Double(amount) != nil && Double(amount)! > 0
     }
 
     private func saveExpense() {
+        focusedField = nil
         guard let amountValue = Double(amount) else { return }
-        _ = TransactionItem(
+        let newTransaction = TransactionItem(
             name: name,
             category: selectedCategory,
             amount: amountValue,
             isExpense: isExpense,
             date: .now
         )
+        viewModel.addExpense(transaction: newTransaction)
+    }
+
+    private enum Field: Hashable {
+        case name
+        case amount
     }
 }
 

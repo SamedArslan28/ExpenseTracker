@@ -12,6 +12,7 @@ struct SettingsView: View {
     @AppStorage("selectedTheme") private var selectedTheme: Appearance = .system
     @AppStorage("budget") private var budget: Double = 500.0
     @State private var showCurrencyPicker: Bool = false
+    @State private var showDeleteAlert: Bool = false
 
     let availableCurrencies: [String] = ["USD", "EUR", "GBP", "TRY", "JPY", "INR"]
 
@@ -53,17 +54,16 @@ struct SettingsView: View {
                     .foregroundColor(.blue)
 
                     Button("Clear All Data") {
-                        // do impl
+                        showDeleteAlert = true
                     }
                     .foregroundColor(.red)
-                }
-
-                Section(header: Text("About")) {
-                    Button("Help & Support") {
-                        // add impl
-                    }
-                    Button("About App") {
-                        // add impl
+                    .alert("Clear All Data", isPresented: $showDeleteAlert) {
+                        Button("Delete", role: .destructive) {
+                            SwiftDataService.shared.deleteAllItems()
+                        }
+                        Button("Cancel", role: .cancel) {}
+                    } message: {
+                        Text("Are you sure you want to delete all data? This action cannot be undone.")
                     }
                 }
             }

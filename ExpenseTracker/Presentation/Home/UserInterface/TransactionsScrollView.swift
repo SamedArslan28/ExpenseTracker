@@ -17,7 +17,6 @@ struct TransactionsScrollView: View {
                             .offset(y: -distance / 1.25)
                             .blur(radius: -distance / 50)
                     }
-                // TODO: - Make implementations
                     .contextMenu {
                         Button("Demo") {
                             print("Context Menu works")
@@ -26,5 +25,8 @@ struct TransactionsScrollView: View {
             }
         }
         .offset(y: -20)
+        .onAppear {
+            viewModel.fetchItems()
+        }
     }
 }

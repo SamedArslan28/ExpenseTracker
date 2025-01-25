@@ -6,6 +6,7 @@
 //
 
 import SwiftData
+import Foundation
 
 class SwiftDataService {
     @MainActor
@@ -22,6 +23,7 @@ class SwiftDataService {
                 configurations: ModelConfiguration(isStoredInMemoryOnly: false)
             )
             self.modelContext = modelContainer?.mainContext
+            deleteAllItems()
         } catch {
             print("Failed to initialize ModelContainer: \(error.localizedDescription)")
             self.modelContainer = nil
@@ -37,7 +39,7 @@ class SwiftDataService {
         do {
             return try modelContext.fetch(FetchDescriptor<TransactionItem>())
         } catch {
-            print("Failed to fetch expenses: \(error.localizedDescription)")
+            print("Faialed to fetch expenses: \(error.localizedDescription)")
             return []
         }
     }
@@ -54,4 +56,40 @@ class SwiftDataService {
             print("Failed to save expense: \(error.localizedDescription)")
         }
     }
+
+    func deleteAllItems() {
+        do {
+            try modelContext?.delete(model: TransactionItem.self)
+        } catch {
+            fatalError("Error deleting user data. Application has stopped.")
+        }
+    }
+
+    private func addSampleDataIfNeeded() {
+            guard let modelContext else { return }
+
+            do {
+
+                let existingItems = try modelContext.fetch(FetchDescriptor<TransactionItem>())
+                if existingItems.isEmpty {
+                    print("Database is empty. Adding sample data...")
+                    for i in 1...100 {
+                        let newItem = TransactionItem(
+                            name: "Item \(i)",
+                            category: .allCases.randomElement()!,
+                            amount: Double.random(in: 10...500),
+                            isExpense: .random(),
+                            date: Date().addingTimeInterval(Double(i) * -86400) // Spread over the last 100 days
+                        )
+                        modelContext.insert(newItem)
+                    }
+                    try modelContext.save()
+                    print("Added 100 sample items.")
+                } else {
+                    print("Database already contains data.")
+                }
+            } catch {
+                print("Failed to add sample data: \(error.localizedDescription)")
+            }
+        }
 }
