@@ -1,0 +1,63 @@
+# Directory and file filters
+included:
+  - ExpenseTracker
+
+# Enabled/disabled rules
+analyzer_rules:
+  - unused_declaration
+  - unused_import
+opt_in_rules:
+  - all
+disabled_rules:
+  # Commonly disabled rules for SwiftUI
+  - anonymous_argument_in_multiline_closure # SwiftUI often uses `$0` in closures
+#  - closure_body_length
+  - contrasted_opening_brace # SwiftUI views can result in long closure bodies
+  - conditional_returns_on_newline
+  - explicit_acl # ACLs are often implied in small SwiftUI files
+  - explicit_top_level_acl
+  - file_types_order
+  - function_default_parameter_at_end
+  - indentation_width # SwiftUI prefers visual spacing flexibility
+  - multiline_arguments_brackets
+  - multiline_function_chains
+  - no_magic_numbers # Magic numbers like padding constants are common
+  - prefer_self_in_static_references
+  - required_deinit
+  - switch_case_on_newline
+  - todo # TODOs are often part of iterative SwiftUI development
+  - trailing_closure
+  - vertical_whitespace_between_cases
+  - identifier_name
+  - one_declaration_per_file
+  - accessibility_label_for_image
+  - accessibility_trait_for_button
+  - attributes
+
+# Configurations
+function_body_length: 150 # Allow more flexibility for complex SwiftUI views
+type_body_length: 600 # SwiftUI Views tend to grow due to body properties
+line_length:
+  warning: 150
+  error: 200
+  ignores_urls: true
+  ignores_function_declarations: true
+  ignores_comments: true
+
+# Custom rules
+custom_rules:
+  fatal_error:
+    name: Fatal Error
+    message: Avoid using `fatalError`. Consider safe fallback handling in production code.
+    regex: \bfatalError\b
+    severity: error
+
+# Specific rules for SwiftUI projects
+closure_body_length:
+  warning: 50
+  error: 100
+  ignores_comments: true # Relax for SwiftUI's nested closures
+object_literal:
+  severity: warning # Encourage using SF Symbols over image literals
+sorted_imports:
+  severity: warning # Keep imports organized but not critical
