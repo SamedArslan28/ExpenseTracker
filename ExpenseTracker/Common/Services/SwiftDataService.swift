@@ -23,7 +23,7 @@ class SwiftDataService {
                 configurations: ModelConfiguration(isStoredInMemoryOnly: false)
             )
             self.modelContext = modelContainer?.mainContext
-            deleteAllItems()
+
         } catch {
             print("Failed to initialize ModelContainer: \(error.localizedDescription)")
             self.modelContainer = nil

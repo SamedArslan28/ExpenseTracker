@@ -1,4 +1,5 @@
 import SwiftUI
+import os
 
 struct AddExpenseView: View {
     @AppStorage("selectedCurrency") private var selectedCurrency: String = Locale.current.currencySymbol ?? "$"
@@ -31,6 +32,7 @@ struct AddExpenseView: View {
                                     }
                                 }
                             }
+                            .listRowSeparator(.hidden)
                     }
 
                     Picker("Category", selection: $selectedCategory) {
