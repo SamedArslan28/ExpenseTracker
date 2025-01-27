@@ -5,8 +5,11 @@
 //  Created by Abdulsamed Arslan on 9.12.2024.
 //
 
-import SwiftData
 import SwiftUI
+import OSLog
+
+let logger = os.Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.abdulsamedarslan.ExpenseTracker",
+                       category: "App")
 
 @main
 struct ExpenseTrackerApp: App {
@@ -17,6 +20,9 @@ struct ExpenseTrackerApp: App {
         WindowGroup {
             CustomTabBarView()
                 .preferredColorScheme(selectedTheme.colorScheme)
+                .onAppear {
+                    logger.info("App launched")
+                }
         }
     }
 }
