@@ -20,9 +20,6 @@ struct ExpenseTrackerApp: App {
         WindowGroup {
             CustomTabBarView()
                 .preferredColorScheme(selectedTheme.colorScheme)
-                .onAppear {
-                    logger.info("App launched")
-                }
         }
     }
 }

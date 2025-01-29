@@ -17,21 +17,27 @@ class TransactionItem {
     var category: TransactionCategory
     var amount: Double
     var isExpense: Bool
+    var isFixed: Bool = false
     var date: Date
+    var day: Int?
 
     init(
         name: String,
         category: TransactionCategory,
         amount: Double,
         isExpense: Bool,
-        date: Date
+        isFixed: Bool = false,
+        date: Date,
+        day: Int? = nil
     ) {
         self.id = UUID()
         self.name = name
         self.category = category
         self.amount = amount
         self.isExpense = isExpense
+        self.isFixed = isFixed
         self.date = date
+        self.day = day
     }
 }
 
@@ -62,3 +68,5 @@ enum TransactionCategory: String, CaseIterable, Codable {
         }
     }
 }
+
+
