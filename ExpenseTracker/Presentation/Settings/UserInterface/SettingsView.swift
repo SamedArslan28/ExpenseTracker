@@ -45,6 +45,9 @@ struct SettingsView: View {
                         Text("Set Monthly Budget: $\(Int(budget))")
                         Slider(value: $budget, in: 100...5_000, step: 50)
                     }
+                    NavigationLink("Add Fixed Income") {
+                        FixedIncomeView()
+                    }
                 }
 
                 Section(header: Text("Data")) {

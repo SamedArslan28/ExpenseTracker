@@ -31,13 +31,6 @@ struct CustomTabBarView: View {
     }
 }
 
-struct ChartView: View {
-    var body: some View {
-        Text("Chart View")
-            .navigationTitle("Chart")
-    }
-}
-
 struct CustomTabView_Previews: PreviewProvider {
     static var previews: some View {
         CustomTabBarView()
