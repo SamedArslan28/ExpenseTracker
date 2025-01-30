@@ -20,6 +20,7 @@ final class SwiftDataService {
         do {
             self.modelContainer = try ModelContainer(for: TransactionItem.self)
             self.modelContext = modelContainer.mainContext
+            self.deleteAllItems()
             self.addSampleDataIfNeeded()
         } catch {
             fatalError()
