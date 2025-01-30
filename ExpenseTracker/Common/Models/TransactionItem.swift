@@ -7,12 +7,12 @@
 
 import SwiftData
 import SwiftUI
+import Charts
 
 @Model
 class TransactionItem {
     @Attribute(.unique)
     var id: UUID
-
     var name: String
     var category: TransactionCategory
     var amount: Double
@@ -20,6 +20,7 @@ class TransactionItem {
     var isFixed: Bool = false
     var date: Date
     var day: Int?
+    @Transient var isAnimating: Bool = false
 
     init(
         name: String,
@@ -68,5 +69,3 @@ enum TransactionCategory: String, CaseIterable, Codable {
         }
     }
 }
-
-

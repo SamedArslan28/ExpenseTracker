@@ -39,6 +39,8 @@ struct FixedIncomeView: View {
             systemImage: "tray",
             description: Text("You haven't added any fixed incomes yet. Tap + to add one.")
         )
+        .symbolEffect(.wiggle)
+
     }
 
     private var populatedListView: some View {
