@@ -18,7 +18,7 @@ struct SettingsView: View {
 
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section(header: Text("Preferences")) {
                     HStack {
@@ -30,7 +30,8 @@ struct SettingsView: View {
                                 showCurrencyPicker = true
                             }
                             .sheet(isPresented: $showCurrencyPicker) {
-                                CurrencyPicker(selectedCurrency: $selectedCurrency, currencies: availableCurrencies)
+                                CurrencyPicker(selectedCurrency: $selectedCurrency,
+                                               currencies: availableCurrencies)
                             }
                     }
                     Picker("Theme", selection: $selectedTheme) {
@@ -40,14 +41,13 @@ struct SettingsView: View {
                         }
                     }
                 }
+
                 Section(header: Text("Budget")) {
                     VStack(alignment: .leading) {
                         Text("Set Monthly Budget: $\(Int(budget))")
                         Slider(value: $budget, in: 100...5_000, step: 50)
                     }
-                    NavigationLink("Add Fixed Income") {
-                        FixedIncomeView()
-                    }
+                    NavigationLink("Add Fixed Income", destination: FixedIncomeView())
                 }
 
                 Section(header: Text("Data")) {

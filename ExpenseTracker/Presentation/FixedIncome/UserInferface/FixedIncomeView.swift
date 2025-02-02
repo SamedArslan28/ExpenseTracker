@@ -49,6 +49,7 @@ struct FixedIncomeView: View {
                 incomeItemView(for: item)
             }
             .onDelete(perform: deleteItems)
+            .listStyle(.plain)
         }
     }
 
