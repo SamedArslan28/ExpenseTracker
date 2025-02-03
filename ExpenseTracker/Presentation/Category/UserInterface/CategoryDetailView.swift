@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CategoryDetailView: View {
     let category: TransactionCategory
-    let totals: (expenses: Double, incomes: Double)
+//    let totals: (expenses: Double, incomes: Double)
 
     var body: some View {
         VStack(spacing: 20) {
@@ -20,7 +20,7 @@ struct CategoryDetailView: View {
             HStack {
                 Text("Total Expenses:")
                 Spacer()
-                Text("\(totals.expenses, specifier: "%.2f")")
+//                Text("\(totals.expenses, specifier: "%.2f")")
                     .foregroundColor(.red)
             }
             .padding()
@@ -28,7 +28,7 @@ struct CategoryDetailView: View {
             HStack {
                 Text("Total Incomes:")
                 Spacer()
-                Text("\(totals.incomes, specifier: "%.2f")")
+//                Text("\(totals.incomes, specifier: "%.2f")")
                     .foregroundColor(.green)
             }
             .padding()

@@ -15,63 +15,59 @@ struct SettingsView: View {
     @State private var showDeleteAlert: Bool = false
 
     let availableCurrencies: [String] = ["USD", "EUR", "GBP", "TRY", "JPY", "INR"]
-
-
     var body: some View {
-        NavigationStack {
-            Form {
-                Section(header: Text("Preferences")) {
-                    HStack {
-                        Text("Currency")
-                        Spacer()
-                        Text(selectedCurrency)
-                            .foregroundColor(.gray)
-                            .onTapGesture {
-                                showCurrencyPicker = true
-                            }
-                            .sheet(isPresented: $showCurrencyPicker) {
-                                CurrencyPicker(selectedCurrency: $selectedCurrency,
-                                               currencies: availableCurrencies)
-                            }
-                    }
-                    Picker("Theme", selection: $selectedTheme) {
-                        ForEach(Appearance.allCases) { appearance in
-                            Text(appearance.rawValue.capitalized)
-                                .tag(appearance)
+        Form {
+            Section(header: Text("Preferences")) {
+                HStack {
+                    Text("Currency")
+                    Spacer()
+                    Text(selectedCurrency)
+                        .foregroundColor(.gray)
+                        .onTapGesture {
+                            showCurrencyPicker = true
                         }
-                    }
-                }
-
-                Section(header: Text("Budget")) {
-                    VStack(alignment: .leading) {
-                        Text("Set Monthly Budget: $\(Int(budget))")
-                        Slider(value: $budget, in: 100...5_000, step: 50)
-                    }
-                    NavigationLink("Add Fixed Income", destination: FixedIncomeView())
-                }
-
-                Section(header: Text("Data")) {
-                    Button("Export Data to CSV") {
-                        // do impl
-                    }
-                    .foregroundColor(.blue)
-
-                    Button("Clear All Data") {
-                        showDeleteAlert = true
-                    }
-                    .foregroundColor(.red)
-                    .alert("Clear All Data", isPresented: $showDeleteAlert) {
-                        Button("Delete", role: .destructive) {
-                            SwiftDataService.shared.deleteAllItems()
+                        .sheet(isPresented: $showCurrencyPicker) {
+                            CurrencyPicker(selectedCurrency: $selectedCurrency,
+                                           currencies: availableCurrencies)
                         }
-                        Button("Cancel", role: .cancel) {}
-                    } message: {
-                        Text("Are you sure you want to delete all data? This action cannot be undone.")
+                }
+                Picker("Theme", selection: $selectedTheme) {
+                    ForEach(Appearance.allCases) { appearance in
+                        Text(appearance.rawValue.capitalized)
+                            .tag(appearance)
                     }
                 }
             }
-            .navigationTitle("Settings")
+
+            Section(header: Text("Budget")) {
+                VStack(alignment: .leading) {
+                    Text("Set Monthly Budget: $\(Int(budget))")
+                    Slider(value: $budget, in: 100...5_000, step: 50)
+                }
+                NavigationLink("Add Fixed Income", destination: FixedIncomeView())
+            }
+
+            Section(header: Text("Data")) {
+                Button("Export Data to CSV") {
+                    // do impl
+                }
+                .foregroundColor(.blue)
+
+                Button("Clear All Data") {
+                    showDeleteAlert = true
+                }
+                .foregroundColor(.red)
+                .alert("Clear All Data", isPresented: $showDeleteAlert) {
+                    Button("Delete", role: .destructive) {
+                        SwiftDataService.shared.deleteAllItems()
+                    }
+                    Button("Cancel", role: .cancel) {}
+                } message: {
+                    Text("Are you sure you want to delete all data? This action cannot be undone.")
+                }
+            }
         }
+        .navigationTitle(Text("Settings"))
     }
 }
 
@@ -105,5 +101,8 @@ struct CurrencyPicker: View {
     }
 }
 #Preview {
-    SettingsView()
+    NavigationStack {
+        SettingsView()
+
+    }
 }

@@ -1,31 +1,30 @@
 import SwiftUI
 
 struct CategoriesView: View {
-    @ObservedObject var viewModel: CategoriesViewModel = .init(balanceItems: [])
+    @State var viewModel: CategoriesViewModel = .init(balanceItems: [])
     @State private var search: String = ""
 
     var body: some View {
-        VStack {
-            SearchBar(text: $viewModel.searchText)
-            ScrollView {
-                ForEach(TransactionCategory.allCases, id: \.self) { category in
-                    if let totals = viewModel.categoryTotals[category] {
-                        NavigationLink(destination: CategoryDetailView(category: category, totals: totals)) {
-                            HStack {
-                                Image(category.iconName)
-                                    .accessibilityLabel(category.iconName)
-                                    .foregroundColor(category.color)
-                                    .font(.largeTitle)
-                                VStack(alignment: .leading) {
-                                    Text(category.rawValue.capitalized)
-                                        .foregroundStyle(category.color)
-                                }
-                            }
+        List {
+            ForEach(TransactionCategory.allCases, id: \.self) { category in
+                NavigationLink(destination: CategoryDetailView(category: category)) {
+                    HStack {
+                        Image(category.iconName)
+                            .resizable()
+                            .frame(width: 50,
+                                   height: 50)
+                            .foregroundColor(category.color)
+                            .font(.largeTitle)
+                        VStack(alignment: .leading) {
+                            Text(category.rawValue.capitalized)
+
                         }
                     }
                 }
             }
         }
+        .searchable(text: $viewModel.searchText)
+        .navigationTitle("Categories")
     }
 }
 
@@ -33,7 +32,9 @@ struct CategoriesView_Previews: PreviewProvider {
     static let mockItems: [TransactionItem] = [ ]
 
     static var previews: some View {
-        CategoriesView(viewModel: CategoriesViewModel(balanceItems: mockItems))
+        NavigationStack {
+                CategoriesView(viewModel: CategoriesViewModel(balanceItems: mockItems))
+            }
     }
 }
 
@@ -65,7 +66,7 @@ struct SearchBar: View {
                 .padding(.horizontal)
                 .background(
                     LinearGradient(colors: [.indigo, .purple], startPoint: .top, endPoint: .bottom)
-                        .frame(maxWidth: .infinity, maxHeight: 150)
+                        .frame(maxWidth: .infinity, maxHeight: .greatestFiniteMagnitude)
                         .ignoresSafeArea()
                 )
         }

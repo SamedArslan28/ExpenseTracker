@@ -7,9 +7,11 @@
 
 import SwiftUI
 
-class CategoriesViewModel: ObservableObject {
-    @Published private(set) var categoryTotals: [TransactionCategory: (expenses: Double, incomes: Double)] = [:]
-    @Published var searchText: String = ""
+
+@Observable
+class CategoriesViewModel {
+    private(set) var categoryTotals: [TransactionCategory: (expenses: Double, incomes: Double)] = [:]
+    var searchText: String = ""
 
     private var balanceItems: [TransactionItem]
 
