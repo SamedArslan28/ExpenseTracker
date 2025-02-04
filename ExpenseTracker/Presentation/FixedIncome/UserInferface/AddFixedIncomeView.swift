@@ -3,25 +3,24 @@ import SwiftUI
 struct AddFixedIncomeView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var viewModel: FixedIncomeViewModel
-
     @State private var name: String = ""
     @State private var amount: String = ""
     @State private var selectedDay: Int = 1
-
     @AppStorage("selectedCurrency") private var selectedCurrency: String = Locale.current.currencySymbol ?? "$"
-    @FocusState private var focusedField: Field?
 
     private var isSaveButtonEnabled: Bool {
         !name.isEmpty && !amount.isEmpty && (Double(amount) ?? 0) > 0
     }
 
     var body: some View {
-        Form {
-            expenseDetailsSection
-            datePickerSection
+        NavigationStack {
+            Form {
+                expenseDetailsSection
+                datePickerSection
+            }
+            .overlay(saveButton, alignment: .bottom)
+            .toolbar { keyboardToolbar }
         }
-        .overlay(saveButton, alignment: .bottom)
-        .toolbar { keyboardToolbar }
     }
 }
 
@@ -31,11 +30,9 @@ private extension AddFixedIncomeView {
         Section(header: Text("Expense Details").font(.headline)) {
             TextField("Expense Name", text: $name)
                 .autocapitalization(.words)
-                .focused($focusedField, equals: .name)
 
             TextField("Amount (\(selectedCurrency))", text: $amount)
                 .keyboardType(.decimalPad)
-                .focused($focusedField, equals: .amount)
         }
     }
 
@@ -66,7 +63,7 @@ private extension AddFixedIncomeView {
     var keyboardToolbar: some ToolbarContent {
         ToolbarItemGroup(placement: .keyboard) {
             Spacer()
-            Button("Done") { focusedField = nil }
+            Button("Done") { dismissKeyboard() }
         }
     }
 }

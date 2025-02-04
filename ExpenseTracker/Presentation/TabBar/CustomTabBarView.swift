@@ -4,16 +4,14 @@ struct CustomTabBarView: View {
     @State private var selectedTab: Tabs = .home
 
     var body: some View {
-
+        NavigationStack{
             TabView(selection: $selectedTab) {
                 Tab("Home", systemImage: "house", value: .home) {
                     HomeView()
                 }
 
                 Tab("Category", systemImage: "square.grid.2x2", value: .category) {
-                    NavigationStack {
-                            CategoriesView()
-                        }
+                    CategoriesView()
                 }
 
                 Tab("", image: "plus.circle.fill", value: .add) {
@@ -25,14 +23,10 @@ struct CustomTabBarView: View {
                 }
 
                 Tab("Settings", systemImage: "gear", value: .profile) {
-                    NavigationStack {
-                        SettingsView()
-                           
-                    }
-                    .navigationBarTitleDisplayMode(.large)
+                    SettingsView()
                 }
             }
-
+        }
         .tint(.indigo)
     }
 }

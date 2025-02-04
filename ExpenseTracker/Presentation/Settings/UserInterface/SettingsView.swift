@@ -49,7 +49,7 @@ struct SettingsView: View {
 
             Section(header: Text("Data")) {
                 Button("Export Data to CSV") {
-                    // do impl
+                    saveCSVFile(transactions: SwiftDataService.shared.fetchExpenses())
                 }
                 .foregroundColor(.blue)
 
@@ -69,6 +69,25 @@ struct SettingsView: View {
         }
         .navigationTitle(Text("Settings"))
     }
+
+    @discardableResult
+    func saveCSVFile(transactions: [TransactionItem]) -> URL? {
+        let csvString = TransactionItem.convertToCSV(transactions: transactions)
+
+        let fileManager = FileManager.default
+        do {
+            let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let fileURL = directory.appendingPathComponent("transactions.csv")
+
+            try csvString.write(to: fileURL, atomically: true, encoding: .utf8)
+
+            print("CSV file saved at: \(fileURL)")
+            return fileURL
+        } catch {
+            print("Error saving CSV file: \(error)")
+            return nil
+        }
+    }
 }
 
 struct CurrencyPicker: View {
@@ -78,7 +97,7 @@ struct CurrencyPicker: View {
     let currencies: [String]
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List(currencies, id: \.self) { currency in
                 Button {
                     selectedCurrency = currency
@@ -103,6 +122,5 @@ struct CurrencyPicker: View {
 #Preview {
     NavigationStack {
         SettingsView()
-
     }
 }
