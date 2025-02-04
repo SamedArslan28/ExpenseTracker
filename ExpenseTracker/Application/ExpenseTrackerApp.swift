@@ -8,6 +8,7 @@
 import SwiftUI
 import OSLog
 
+
 let logger = os.Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.abdulsamedarslan.ExpenseTracker",
                        category: "App")
 
@@ -22,4 +23,6 @@ struct ExpenseTrackerApp: App {
                 .preferredColorScheme(selectedTheme.colorScheme)
         }
     }
+
 }
+
