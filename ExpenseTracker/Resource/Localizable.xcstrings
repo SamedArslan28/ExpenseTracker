@@ -1,0 +1,135 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "%lf" : {
+
+    },
+    "%lld" : {
+
+    },
+    "$%.2f" : {
+
+    },
+    "Add Expense" : {
+
+    },
+    "Add Fixed Income" : {
+
+    },
+    "Amount (%@)" : {
+
+    },
+    "Are you sure you want to delete all data? This action cannot be undone." : {
+
+    },
+    "Budget" : {
+
+    },
+    "Cancel" : {
+
+    },
+    "Categories" : {
+
+    },
+    "Category" : {
+
+    },
+    "Chart" : {
+
+    },
+    "Clear All Data" : {
+
+    },
+    "Currency" : {
+
+    },
+    "Current Balance" : {
+
+    },
+    "Data" : {
+
+    },
+    "Date" : {
+
+    },
+    "Day" : {
+
+    },
+    "Delete" : {
+
+    },
+    "Demo" : {
+
+    },
+    "Done" : {
+
+    },
+    "Expense" : {
+
+    },
+    "Expense Details" : {
+
+    },
+    "Expense Name" : {
+
+    },
+    "Export Data to CSV" : {
+
+    },
+    "Fixed Income" : {
+
+    },
+    "Home" : {
+
+    },
+    "Income" : {
+
+    },
+    "Item saved successfully" : {
+
+    },
+    "No Fixed Incomes" : {
+
+    },
+    "Preferences" : {
+
+    },
+    "Save Expense" : {
+
+    },
+    "Search categories" : {
+
+    },
+    "Select Currency" : {
+
+    },
+    "Select Expense Date" : {
+
+    },
+    "Set Monthly Budget: $%lld" : {
+
+    },
+    "Settings" : {
+
+    },
+    "Theme" : {
+
+    },
+    "Total Expenses" : {
+
+    },
+    "Total Expenses:" : {
+
+    },
+    "Total Incomes:" : {
+
+    },
+    "You haven't added any fixed incomes yet. Tap + to add one." : {
+
+    }
+  },
+  "version" : "1.0"
+}
