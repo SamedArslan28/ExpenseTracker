@@ -1,13 +1,14 @@
 import SwiftUI
-import os
 
 struct AddExpenseView: View {
     @AppStorage("selectedCurrency") private var selectedCurrency: String = Locale.current.currencySymbol ?? "$"
     @State private var name: String = ""
-    @State private var selectedCategory: TransactionCategory = .other
+    @State private var selectedCategory: TransactionCategory = .coffee
     @State private var amount: String = ""
     @State private var isExpense: Bool = false
-    @FocusState private var focusedField: Field?
+    @State private var selectedDate: Date = .now
+    @State private var isShowingSuccessAlert: Bool = false
+    @FocusState private var isFocused: Bool
 
     let categories: [TransactionCategory] = TransactionCategory.allCases
     let viewModel: AddExpenseViewModel = .init(dataSource: .shared)
@@ -15,63 +16,70 @@ struct AddExpenseView: View {
     var body: some View {
         VStack {
             Form {
-                Section(header: Text("Expense Details").font(.headline)) {
+                Section("Expense Details") {
                     TextField("Expense Name", text: $name)
                         .autocapitalization(.words)
-                        .focused($focusedField, equals: .name)
-
+                        .focused($isFocused)
                     TextField("Amount (\(selectedCurrency))", text: $amount)
                         .keyboardType(.decimalPad)
-                        .focused($focusedField, equals: .amount)
-                        .toolbar {
-                            ToolbarItemGroup(placement: .keyboard) {
-                                Spacer()
-                                Button("Done") {
-                                    focusedField = nil
+                        .focused($isFocused)
+                }
+
+                Section("Category") {
+                    Picker("Category", selection: $selectedCategory) {
+                        ForEach(categories, id: \.self) { category in
+                            HStack(spacing: 4) {
+                                Label {
+                                    Text(category.rawValue.capitalized)
+                                } icon: {
+                                    Image(systemName: category.iconName)
+                                        .resizable()
+                                        .symbolRenderingMode(.palette)
+                                        .foregroundStyle(category.color)
                                 }
                             }
                         }
-                        .listRowSeparator(.hidden)
-                }
+                    }
 
-                Picker("Category", selection: $selectedCategory) {
-                    ForEach(categories, id: \.self) { category in
-                        HStack(spacing: 4) {
-                            Label {
-                                Text(category.rawValue.capitalized)
-                                    .foregroundStyle(.red)
-                            } icon: {
-                                Image(systemName: category.iconName)
-                                    .resizable()
-                                    .symbolRenderingMode(.palette)
-                                    .foregroundStyle(category.color)
-                            }
-                        }
+                    Toggle(isOn: $isExpense) {
+                        Text(isExpense ? "Expense" : "Income")
+                            .fontWeight(.semibold)
+                            .foregroundColor(isExpense ? .red : .green)
                     }
                 }
 
-                Toggle(isOn: $isExpense) {
-                    Text(isExpense ? "Expense" : "Income")
-                        .fontWeight(.semibold)
-                        .foregroundColor(isExpense ? .red : .green)
+                Section(header: Text("Date")) {
+                    DatePicker("Select Expense Date",
+                               selection: $selectedDate,
+                               in: ...Date(),
+                               displayedComponents: .date)
+                    .datePickerStyle(.graphical)
                 }
             }
             Spacer()
-
             Button(action: saveExpense) {
                 Text("Save Expense")
-                    .frame(maxWidth: .infinity)
                     .padding()
                     .foregroundColor(.white)
                     .background(isSaveButtonEnabled ? Color.blue : Color.gray)
                     .cornerRadius(10)
                     .padding(.horizontal)
             }
-            .disabled(!isSaveButtonEnabled)
             .padding(.bottom, 20)
+            .disabled(!isSaveButtonEnabled)
         }
+        .alert("Item saved successfully",
+               isPresented: $isShowingSuccessAlert,
+               actions: {})
         .navigationTitle("Add Expense")
-        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                Spacer()
+                Button("Done") {
+                    dismissKeyboard()
+                }
+            }
+        }
     }
 
 
@@ -80,7 +88,7 @@ struct AddExpenseView: View {
     }
 
     private func saveExpense() {
-        focusedField = nil
+        isFocused = false
         guard let amountValue = Double(amount) else { return }
         let newTransaction = TransactionItem(
             name: name,
@@ -91,6 +99,7 @@ struct AddExpenseView: View {
         )
         viewModel.addExpense(transaction: newTransaction)
         logger.info("New item added")
+        isShowingSuccessAlert = true
     }
 }
 
@@ -98,7 +107,13 @@ struct AddExpenseView: View {
     AddExpenseView()
 }
 
-enum Field: Hashable {
+enum Field: Int, CaseIterable {
     case name
     case amount
+}
+
+extension View {
+    func dismissKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
 }
