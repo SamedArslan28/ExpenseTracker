@@ -22,4 +22,9 @@ final class TransactionsScrollViewModel {
      func fetchItems() {
          balanceItems = dataSource.fetchExpenses().reversed()
     }
+
+    func deleteItem(transaction: TransactionItem) {
+        dataSource.deleteItem(item: transaction)
+        fetchItems()
+    }
 }

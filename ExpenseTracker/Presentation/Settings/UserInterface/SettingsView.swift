@@ -43,9 +43,9 @@ struct SettingsView: View {
         ) { result in
             switch result {
             case .success(let url):
-                print("Successfully saved CSV file to: \(url)")
+                logger.info("Successfully saved CSV file to: \(url)")
             case .failure(let error):
-                print("Failed to save CSV file: \(error)")
+                logger.error("Failed to save CSV file: \(error)")
             }
         }
     }

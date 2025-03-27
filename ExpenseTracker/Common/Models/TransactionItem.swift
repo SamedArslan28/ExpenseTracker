@@ -71,9 +71,6 @@ class TransactionItem: Codable {
     }
 }
 
-
-import SwiftUI
-
 extension TransactionItem {
     static func convertToCSV(transactions: [TransactionItem]) -> String {
         var csvString = "id,name,category,amount,isExpense,isFixed,date,day\n"

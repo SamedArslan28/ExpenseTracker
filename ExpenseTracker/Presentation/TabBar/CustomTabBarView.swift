@@ -51,16 +51,3 @@ enum Tabs: Hashable {
     case profile
 }
 
-struct DemoTip: Tip {
-    var title: Text {
-        Text("Tip demo")
-    }
-
-    var image: Image? {
-        Image(systemName: "star.fill")
-    }
-
-    var message: Text? {
-        Text("This is a demo tip. Falan filan dersin sonra bakarsin isine.")
-    }
-}

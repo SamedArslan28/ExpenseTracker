@@ -18,8 +18,12 @@ struct TransactionsScrollView: View {
                             .blur(radius: -distance / 50)
                     }
                     .contextMenu {
-                        Button("Demo") {
-                            print("Context Menu works")
+                        // TODO: - Add editing
+                        Button("Edit") {
+                            logger.info("edited")
+                        }
+                        Button("Delete") {
+                            viewModel.deleteItem(transaction: transaction)
                         }
                     }
             }

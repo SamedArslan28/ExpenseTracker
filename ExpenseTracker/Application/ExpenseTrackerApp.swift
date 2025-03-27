@@ -9,7 +9,6 @@ import SwiftUI
 import OSLog
 import TipKit
 
-
 let logger = os.Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.abdulsamedarslan.ExpenseTracker",
                        category: "App")
 
@@ -28,12 +27,11 @@ struct ExpenseTrackerApp: App {
 
     init() {
            do {
-               // Configure and load all tips in the app.
-               try Tips.resetDatastore()
+//               try Tips.resetDatastore()
                try Tips.configure()
            }
            catch {
-               print("Error initializing tips: \(error)")
+               logger.error("Error initializing tips: \(error)")
            }
        }
 

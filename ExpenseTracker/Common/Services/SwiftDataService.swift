@@ -11,7 +11,6 @@ import Foundation
 final class SwiftDataService {
     @MainActor
     static let shared: SwiftDataService = .init()
-
     private let modelContainer: ModelContainer
     private let modelContext: ModelContext
 
@@ -27,7 +26,6 @@ final class SwiftDataService {
     }
 
     func fetchExpenses() -> [TransactionItem] {
-
         let sortDescriptor = SortDescriptor(\TransactionItem.date, order: .forward)
         let predicate = #Predicate<TransactionItem> { transaction in
             transaction.isFixed != true
@@ -37,7 +35,7 @@ final class SwiftDataService {
         do {
             return try modelContext.fetch(fetchDescriptor)
         } catch {
-            print("Failed to fetch expenses: \(error.localizedDescription)")
+            logger.error("Failed to fetch expenses: \(error.localizedDescription)")
             return []
         }
     }
@@ -56,12 +54,11 @@ final class SwiftDataService {
     }
 
     func addExpense(_ transaction: TransactionItem) {
-
         modelContext.insert(transaction)
         do {
             try modelContext.save()
         } catch {
-            print("Failed to save expense: \(error.localizedDescription)")
+            logger.error("Failed to save expense: \(error.localizedDescription)")
         }
     }
 
@@ -75,13 +72,18 @@ final class SwiftDataService {
 
     func deleteItem(item: TransactionItem) {
         modelContext.delete(item)
+           do {
+               try modelContext.save()
+           } catch {
+               logger.error("Failed to delete expense: \(error.localizedDescription)")
+           }
     }
 
     private func addSampleDataIfNeeded() {
         do {
             let existingItems = try modelContext.fetch(FetchDescriptor<TransactionItem>())
             if existingItems.isEmpty {
-                print("Database is empty. Adding sample data...")
+                logger.info("Database is empty. Adding sample data...")
                 for i in 1...100 {
                     let newItem = TransactionItem(
                         name: "Item \(i)",
@@ -93,12 +95,12 @@ final class SwiftDataService {
                     modelContext.insert(newItem)
                 }
                 try modelContext.save()
-                print("Added 100 sample items.")
+                logger.info("Added 100 sample items.")
             } else {
-                print("Database already contains data.")
+                logger.info("Database already contains data.")
             }
         } catch {
-            print("Failed to add sample data: \(error.localizedDescription)")
+            logger.error("Failed to add sample data: \(error.localizedDescription)")
         }
     }
 }

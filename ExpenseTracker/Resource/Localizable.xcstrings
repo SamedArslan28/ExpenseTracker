@@ -61,10 +61,10 @@
     "Delete" : {
 
     },
-    "Demo" : {
+    "Done" : {
 
     },
-    "Done" : {
+    "Edit" : {
 
     },
     "Expense" : {
@@ -106,9 +106,6 @@
     "Save Expense" : {
 
     },
-    "Search for a category" : {
-
-    },
     "Select Currency" : {
 
     },
@@ -122,9 +119,6 @@
 
     },
     "Theme" : {
-
-    },
-    "There is no category" : {
 
     },
     "This is a demo tip. Falan filan dersin sonra bakarsin isine." : {
