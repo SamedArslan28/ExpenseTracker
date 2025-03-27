@@ -1,119 +1,167 @@
 import SwiftUI
+import TipKit
 
 struct AddExpenseView: View {
     @AppStorage("selectedCurrency") private var selectedCurrency: String = Locale.current.currencySymbol ?? "$"
     @State private var name: String = ""
     @State private var selectedCategory: TransactionCategory = .coffee
     @State private var amount: String = ""
-    @State private var isExpense: Bool = false
+    @State private var transactionType: TransactionType = .expense
     @State private var selectedDate: Date = .now
     @State private var isShowingSuccessAlert: Bool = false
-    @FocusState private var isFocused: Bool
+    @FocusState private var isInputActive: Bool
+    @Environment(\.dismiss) private var dismiss
 
-    let categories: [TransactionCategory] = TransactionCategory.allCases
-    let viewModel: AddExpenseViewModel = .init(dataSource: .shared)
+    private let categories: [TransactionCategory] = TransactionCategory.allCases
+    private let viewModel: AddExpenseViewModel = .init(dataSource: .shared)
 
     var body: some View {
-        VStack {
-            Form {
-                Section("Expense Details") {
-                    TextField("Expense Name", text: $name)
-                        .autocapitalization(.words)
-                        .focused($isFocused)
-                    TextField("Amount (\(selectedCurrency))", text: $amount)
-                        .keyboardType(.decimalPad)
-                        .focused($isFocused)
-                }
 
-                Section("Category") {
-                    Picker("Category", selection: $selectedCategory) {
-                        ForEach(categories, id: \.self) { category in
-                            HStack(spacing: 4) {
-                                Label {
-                                    Text(category.rawValue.capitalized)
-                                } icon: {
-                                    Image(systemName: category.iconName)
-                                        .resizable()
-                                        .symbolRenderingMode(.palette)
-                                        .foregroundStyle(category.color)
-                                }
-                            }
-                        }
-                    }
+        Form {
+            ExpenseDetailsSection(
+                name: $name,
+                amount: $amount,
+                selectedCurrency: selectedCurrency,
+                isInputActive: $isInputActive
+            )
 
-                    Toggle(isOn: $isExpense) {
-                        Text(isExpense ? "Expense" : "Income")
-                            .fontWeight(.semibold)
-                            .foregroundColor(isExpense ? .red : .green)
-                    }
-                }
+            CategorySection(
+                selectedCategory: $selectedCategory,
+                transactionType: $transactionType
+            )
 
-                Section(header: Text("Date")) {
-                    DatePicker("Select Expense Date",
-                               selection: $selectedDate,
-                               in: ...Date(),
-                               displayedComponents: .date)
-                    .datePickerStyle(.graphical)
-                }
-            }
-            Spacer()
-            Button(action: saveExpense) {
-                Text("Save Expense")
-                    .padding()
-                    .foregroundColor(.white)
-                    .background(isSaveButtonEnabled ? Color.blue : Color.gray)
-                    .cornerRadius(10)
-                    .padding(.horizontal)
-            }
-            .padding(.bottom, 20)
-            .disabled(!isSaveButtonEnabled)
+            DatePickerSection(
+                selectedDate: $selectedDate
+            )
         }
-        .alert("Item saved successfully",
-               isPresented: $isShowingSuccessAlert,
-               actions: {})
         .navigationTitle("Add Expense")
         .toolbar {
-            ToolbarItemGroup(placement: .topBarTrailing) {
-                Spacer()
-                Button("Done") {
-                    dismissKeyboard()
+            ToolbarItem(placement: .keyboard) {
+                Button("Done") { isInputActive = false }
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+            }
+            ToolbarItem(placement: .primaryAction) {
+                Button("Save") {
+                    saveExpense()
                 }
+                .disabled(!isSaveButtonEnabled)
+                // TODO: - Fix this tip
+                .popoverTip(DemoTip())
             }
         }
+        .alert("Item saved successfully",
+               isPresented: $isShowingSuccessAlert) {
+            Button("OK") { dismiss() }
+        }
+
     }
 
-
     private var isSaveButtonEnabled: Bool {
-        !name.isEmpty && !amount.isEmpty && Double(amount) != nil && Double(amount)! > 0
+        guard let amountValue = Double(amount), amountValue > 0 else { return false }
+        return !name.isEmpty
     }
 
     private func saveExpense() {
-        isFocused = false
+        isInputActive = false
         guard let amountValue = Double(amount) else { return }
+
         let newTransaction = TransactionItem(
             name: name,
             category: selectedCategory,
             amount: amountValue,
-            isExpense: isExpense,
-            date: .now
+            isExpense: transactionType == .expense,
+            date: selectedDate
         )
+
         viewModel.addExpense(transaction: newTransaction)
-        logger.info("New item added")
         isShowingSuccessAlert = true
+        resetForm()
+    }
+
+    private func resetForm() {
+        name = ""
+        amount = ""
+        transactionType = .expense
+        selectedCategory = .coffee
+        selectedDate = .now
     }
 }
 
 #Preview {
-    AddExpenseView()
-}
-
-enum Field: Int, CaseIterable {
-    case name
-    case amount
-}
-
-extension View {
-    func dismissKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    NavigationView {
+        AddExpenseView()
     }
+}
+
+// MARK: - Subviews
+
+private struct ExpenseDetailsSection: View {
+    @Binding var name: String
+    @Binding var amount: String
+    let selectedCurrency: String
+    @FocusState.Binding var isInputActive: Bool
+
+    var body: some View {
+        Section(header: Text("Expense Details")) {
+            TextField("Expense Name",
+                      text: $name)
+            .autocapitalization(.words)
+            .focused($isInputActive)
+
+            TextField("Amount (\(selectedCurrency))",
+                      text: $amount)
+            .keyboardType(.decimalPad)
+            .focused($isInputActive)
+        }
+    }
+}
+
+private struct CategorySection: View {
+    @Binding var selectedCategory: TransactionCategory
+    @Binding var transactionType: TransactionType
+    let categories = TransactionCategory.allCases
+
+    var body: some View {
+        Section(header: Text("Category")) {
+            Picker("Category", selection: $selectedCategory) {
+                ForEach(categories, id: \.self) { category in
+                    HStack {
+                        Image(systemName: category.iconName)
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(category.color)
+                        Text(category.rawValue.capitalized)
+                    }
+                }
+            }
+            .pickerStyle(.menu)
+
+            Picker("Type", selection: $transactionType) {
+                ForEach(TransactionType.allCases, id: \.self) { type in
+                    Text(type.rawValue.capitalized)
+                        .foregroundColor(type == .expense ? .red : .green)
+                }
+            }
+            .pickerStyle(.segmented)
+        }
+    }
+}
+
+private struct DatePickerSection: View {
+    @Binding var selectedDate: Date
+
+    var body: some View {
+        Section(header: Text("Date")) {
+            DatePicker("Select Expense Date", selection: $selectedDate, in: ...Date(), displayedComponents: .date)
+                .datePickerStyle(.graphical)
+        }
+    }
+}
+
+// MARK: - Enums
+
+enum TransactionType: String, CaseIterable {
+    case expense = "Expense"
+    case income = "Income"
 }

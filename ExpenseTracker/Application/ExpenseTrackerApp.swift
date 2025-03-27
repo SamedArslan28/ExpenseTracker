@@ -7,6 +7,7 @@
 
 import SwiftUI
 import OSLog
+import TipKit
 
 
 let logger = os.Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.abdulsamedarslan.ExpenseTracker",
@@ -21,8 +22,20 @@ struct ExpenseTrackerApp: App {
         WindowGroup {
             CustomTabBarView()
                 .preferredColorScheme(selectedTheme.colorScheme)
+
         }
     }
+
+    init() {
+           do {
+               // Configure and load all tips in the app.
+               try Tips.resetDatastore()
+               try Tips.configure()
+           }
+           catch {
+               print("Error initializing tips: \(error)")
+           }
+       }
 
 }
 

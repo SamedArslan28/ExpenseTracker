@@ -1,4 +1,5 @@
 import SwiftUI
+import TipKit
 
 struct CustomTabBarView: View {
     @State private var selectedTab: Tabs = .home
@@ -11,11 +12,15 @@ struct CustomTabBarView: View {
                 }
 
                 Tab("Category", systemImage: "square.grid.2x2", value: .category) {
-                    CategoriesView()
+                    NavigationView {
+                        CategoriesView()
+                    }
                 }
 
                 Tab("", image: "plus.circle.fill", value: .add) {
-                    AddExpenseView()
+                    NavigationView {
+                        AddExpenseView()
+                    }
                 }
 
                 Tab("Chart", systemImage: "chart.pie", value: .chart) {
@@ -44,4 +49,18 @@ enum Tabs: Hashable {
     case chart
     case home
     case profile
+}
+
+struct DemoTip: Tip {
+    var title: Text {
+        Text("Tip demo")
+    }
+
+    var image: Image? {
+        Image(systemName: "star.fill")
+    }
+
+    var message: Text? {
+        Text("This is a demo tip. Falan filan dersin sonra bakarsin isine.")
+    }
 }

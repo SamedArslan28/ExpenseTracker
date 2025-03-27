@@ -18,7 +18,9 @@ struct FixedIncomeView: View {
             }
         }
         .sheet(isPresented: $isShowingAddIncomeSheet) { addIncomeSheet }
-        .onAppear { viewModel.fetchFixedItems() }
+        .onAppear {
+            viewModel.fetchFixedItems()
+        }
         .navigationTitle("Fixed Income")
     }
 

@@ -1,23 +1,21 @@
-//
-//  CategoryViewModel.swift
-//  ExpenseTracker
-//
-//  Created by Abdulsamed Arslan on 9.12.2024.
-//
-
 import SwiftUI
-
 
 @Observable
 class CategoriesViewModel {
     private(set) var categoryTotals: [TransactionCategory: (expenses: Double, incomes: Double)] = [:]
-    var searchText: String = ""
+    var searchText: String = "" {
+        didSet {
+            filterCategories()
+        }
+    }
 
     private var balanceItems: [TransactionItem]
+    private(set) var filteredCategories: [TransactionCategory] = TransactionCategory.allCases
 
     init(balanceItems: [TransactionItem]) {
         self.balanceItems = balanceItems
         calculateCategoryTotals()
+        filterCategories() // Initialize filtered categories
     }
 
     private func calculateCategoryTotals() {
@@ -32,5 +30,13 @@ class CategoriesViewModel {
             }
         }
         categoryTotals = totals
+    }
+
+    private func filterCategories() {
+        if searchText.isEmpty {
+            filteredCategories = TransactionCategory.allCases
+        } else {
+            filteredCategories = TransactionCategory.allCases.filter { $0.rawValue.localizedCaseInsensitiveContains(searchText) }
+        }
     }
 }

@@ -94,13 +94,19 @@
     "No Fixed Incomes" : {
 
     },
+    "OK" : {
+
+    },
     "Preferences" : {
+
+    },
+    "Save" : {
 
     },
     "Save Expense" : {
 
     },
-    "Search categories" : {
+    "Search for a category" : {
 
     },
     "Select Currency" : {
@@ -118,6 +124,15 @@
     "Theme" : {
 
     },
+    "There is no category" : {
+
+    },
+    "This is a demo tip. Falan filan dersin sonra bakarsin isine." : {
+
+    },
+    "Tip demo" : {
+
+    },
     "Total Expenses" : {
 
     },
@@ -125,6 +140,9 @@
 
     },
     "Total Incomes:" : {
+
+    },
+    "Type" : {
 
     },
     "You haven't added any fixed incomes yet. Tap + to add one." : {
