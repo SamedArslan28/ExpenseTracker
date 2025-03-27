@@ -32,7 +32,7 @@ struct CustomTabBarView: View {
                 }
             }
         }
-        .tint(.indigo)
+        .tint(.blue)
     }
 }
 
@@ -43,11 +43,4 @@ struct CustomTabView_Previews: PreviewProvider {
     }
 }
 
-enum Tabs: Hashable {
-    case add
-    case category
-    case chart
-    case home
-    case profile
-}
 
