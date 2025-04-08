@@ -3,6 +3,7 @@ import TipKit
 
 struct CustomTabBarView: View {
     @State private var selectedTab: Tabs = .home
+    @State private var isSelectedAdd: Bool = false
 
     var body: some View {
         NavigationStack{
@@ -12,7 +13,7 @@ struct CustomTabBarView: View {
                 }
 
                 Tab("Category", systemImage: "square.grid.2x2", value: .category) {
-                    NavigationView {
+                    NavigationStack {
                         CategoriesView()
                     }
                 }
@@ -28,7 +29,9 @@ struct CustomTabBarView: View {
                 }
 
                 Tab("Settings", systemImage: "gear", value: .profile) {
-                    SettingsView()
+                    NavigationView {
+                        SettingsView()
+                    }
                 }
             }
         }

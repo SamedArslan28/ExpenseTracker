@@ -12,7 +12,7 @@ struct PreferencesSection: View {
     @Binding var showCurrencyPicker: Bool
     @Binding var selectedTheme: Appearance
 
-    let availableCurrencies = ["USD", "EUR", "GBP", "TRY", "JPY", "INR"]
+    let availableCurrencies: [String] = ["USD", "EUR", "GBP", "TRY", "JPY", "INR"]
 
     var body: some View {
         Section(header: Text("Preferences")) {

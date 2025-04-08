@@ -25,7 +25,7 @@ struct AddFixedIncomeView: View {
 }
 
 // MARK: - Components
-private extension AddFixedIncomeView {
+extension AddFixedIncomeView {
     var expenseDetailsSection: some View {
         Section(header: Text("Expense Details").font(.headline)) {
             TextField("Expense Name", text: $name)

@@ -5,8 +5,8 @@
 //  Created by Abdulsamed Arslan on 9.12.2024.
 //
 
-import SwiftData
 import Foundation
+import SwiftData
 
 final class SwiftDataService {
     @MainActor
@@ -72,11 +72,11 @@ final class SwiftDataService {
 
     func deleteItem(item: TransactionItem) {
         modelContext.delete(item)
-           do {
-               try modelContext.save()
-           } catch {
-               logger.error("Failed to delete expense: \(error.localizedDescription)")
-           }
+        do {
+            try modelContext.save()
+        } catch {
+            logger.error("Failed to delete expense: \(error.localizedDescription)")
+        }
     }
 
     private func addSampleDataIfNeeded() {

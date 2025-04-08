@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-// MARK: - ROUNDED STYLE
-
 struct RoundedTextFieldStyle: TextFieldStyle {
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration

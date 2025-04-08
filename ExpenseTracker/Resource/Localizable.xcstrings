@@ -79,6 +79,9 @@
     "Export Data to CSV" : {
 
     },
+    "Export Result" : {
+
+    },
     "Fixed Income" : {
 
     },
@@ -110,9 +113,6 @@
 
     },
     "Select Expense Date" : {
-
-    },
-    "Set Monthly Budget: $%lld" : {
 
     },
     "Settings" : {

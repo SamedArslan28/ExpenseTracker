@@ -10,16 +10,18 @@ import SwiftUI
 
 @Model
 class TransactionItem: Codable {
-    @Attribute(.unique)
-    var id: UUID
+    @Attribute(.unique) var id: UUID
     var name: String
+    @Transient
+    var isAnimating: Bool = false
+
     var category: TransactionCategory
     var amount: Double
     var isExpense: Bool
     var isFixed: Bool
     var date: Date
     var day: Int?
-    @Transient var isAnimating: Bool = false
+
 
     init(
         id: UUID = UUID(),
@@ -89,7 +91,6 @@ extension TransactionItem {
         return csvString
     }
 }
-
 
 enum TransactionCategory: String, CaseIterable, Codable {
     case coffee = "Coffee"
