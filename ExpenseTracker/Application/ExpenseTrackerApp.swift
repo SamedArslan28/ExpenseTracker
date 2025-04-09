@@ -8,6 +8,7 @@
 import SwiftUI
 import OSLog
 import TipKit
+import SwiftData
 
 let logger = os.Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.abdulsamedarslan.ExpenseTracker",
                        category: "App")
@@ -16,24 +17,28 @@ let logger = os.Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.abdulsame
 struct ExpenseTrackerApp: App {
     @AppStorage("selectedTheme")
     private var selectedTheme: Appearance = .system
-
     var body: some Scene {
         WindowGroup {
             CustomTabBarView()
                 .preferredColorScheme(selectedTheme.colorScheme)
 
         }
+        .modelContainer(for:
+            [
+                FixedTransaction.self,
+                TransactionItem.self
+            ]
+        )
     }
 
     init() {
-           do {
-//               try Tips.resetDatastore()
-               try Tips.configure()
-           }
-           catch {
-               logger.error("Error initializing tips: \(error)")
-           }
-       }
+        do {
+            try Tips.configure()
+        }
+        catch {
+            logger.error("Error initializing tips: \(error)")
+        }
+    }
 
 }
 
