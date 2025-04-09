@@ -9,7 +9,6 @@ import SwiftUI
 
 struct TransactionsDetailView: View {
     @AppStorage("selectedCurrency") private var selectedCurrency: String = "USD"
-
     @State private var value: Int = 0
     var isIncome: Bool = false
 

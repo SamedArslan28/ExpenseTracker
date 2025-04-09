@@ -1,11 +1,17 @@
 import SwiftUI
+import SwiftData
 
 struct TransactionsScrollView: View {
-    @State private var viewModel: TransactionsScrollViewModel = .init(dataSource: .shared)
+    @Environment(\.modelContext) var modelContext
+    @Query(TransactionItem.getAll) var items: [TransactionItem]
 
+    @State private var showErrorAlert: Bool = false
+    @State private var errorMessage: String = ""
+    @State private var isEditTapped: Bool = false
+    @State private var selectedItem: TransactionItem?
     var body: some View {
         ScrollView(.vertical) {
-            ForEach(viewModel.balanceItems) { transaction in
+            ForEach(items) { transaction in
                 BalanceItemRow(transaction: transaction)
                     .padding(.horizontal, 20)
                     .padding(.vertical, 4)
@@ -18,19 +24,30 @@ struct TransactionsScrollView: View {
                             .blur(radius: -distance / 50)
                     }
                     .contextMenu {
-                        // TODO: - Add editing
                         Button("Edit") {
-                            logger.info("edited")
+                           isEditTapped = true
                         }
-                        Button("Delete") {
-                            viewModel.deleteItem(transaction: transaction)
+                        Button(role: .destructive) {
+                            modelContext.delete(transaction)
+                            do {
+                                try modelContext.save()
+                            } catch {
+                                logger.error("Failed to delete transaction: \(error.localizedDescription)")
+                            }
+                        } label: {
+                            Label("Delete", systemImage: "trash")
                         }
                     }
             }
         }
         .offset(y: -20)
-        .onAppear {
-            viewModel.fetchItems()
+        .alert("Error", isPresented: $showErrorAlert) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(errorMessage)
+        }
+        .sheet(isPresented: $isEditTapped) {
+            Text("Edit")
         }
     }
 }
