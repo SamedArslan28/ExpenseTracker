@@ -18,6 +18,20 @@
 			<key>type</key>
 			<string>batch-find-query</string>
 		</dict>
+		<dict>
+			<key>query-specification</key>
+			<dict>
+				<key>query</key>
+				<string>text</string>
+				<key>term</key>
+				<dict>
+					<key>text</key>
+					<string>Fixme</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>batch-find-query</string>
+		</dict>
 	</array>
 </dict>
 </plist>

@@ -5,37 +5,29 @@
 //  Created by Abdulsamed Arslan on 9.12.2024.
 //
 
+import SwiftData
 import SwiftUI
 
 struct SettingsView: View {
-    @AppStorage("selectedCurrency") private var selectedCurrency: String = "USD"
-    @AppStorage("selectedTheme") private var selectedTheme: Appearance = .system
+    @Query(FixedTransaction.getAll) private var fixedTransactions: [FixedTransaction]
+    @Query(DefaultTransaction.getAll) private var defaultTransactions: [DefaultTransaction]
+
     @State private var showFileExporterResult: Bool = false
-    @State private var showCurrencyPicker: Bool = false
-    @State private var showDeleteAlert: Bool = false
+    @State private var fileExportMessage: String = ""
     @State private var showFileExporter: Bool = false
-    @State private var fileExportMessage: String = "" 
-    private let exportToCSVTip = DemoTip()
+
 
     var body: some View {
         Form {
-            PreferencesSection(
-                selectedCurrency: $selectedCurrency,
-                showCurrencyPicker: $showCurrencyPicker,
-                selectedTheme: $selectedTheme
-            )
+            PreferencesSection()
             BudgetSection()
-            DataManagementSection(
-                showFileExporter: $showFileExporter,
-                showDeleteAlert: $showDeleteAlert,
-                exportToCSVTip: exportToCSVTip
-            )
+            DataManagementSection(showFileExporter: $showFileExporter)
         }
         .navigationTitle("Settings")
         .fileExporter(
             isPresented: $showFileExporter,
             document: CSVDocument(
-                transactions: SwiftDataService.shared.fetchExpenses()
+                transactions: fixedTransactions + defaultTransactions
             ),
             contentType: .commaSeparatedText,
             defaultFilename: "ExpenseTracker_Data_Export_\(Date.now.formatted(date: .long, time: .omitted)).csv"

@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct PreferencesSection: View {
-    @Binding var selectedCurrency: String
-    @Binding var showCurrencyPicker: Bool
-    @Binding var selectedTheme: Appearance
+    @AppStorage("is24HourFormat") private var isSelected24HourFormat: Bool = true
+    @AppStorage("selectedCurrency") private var selectedCurrency: String = "USD"
+    @AppStorage("selectedTheme") private var selectedTheme: Appearance = .system
+    @State private var showCurrencyPicker: Bool = false
 
     let availableCurrencies: [String] = ["USD", "EUR", "GBP", "TRY", "JPY", "INR"]
 
@@ -31,6 +32,10 @@ struct PreferencesSection: View {
                     Text(appearance.rawValue.capitalized).tag(appearance)
                 }
             }
+            Toggle(isOn: $isSelected24HourFormat) {
+                Text("Use 24-hour format")
+            }
+
         }
     }
 }

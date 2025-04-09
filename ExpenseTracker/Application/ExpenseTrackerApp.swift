@@ -26,7 +26,7 @@ struct ExpenseTrackerApp: App {
         .modelContainer(for:
             [
                 FixedTransaction.self,
-                TransactionItem.self
+                DefaultTransaction.self
             ]
         )
     }
