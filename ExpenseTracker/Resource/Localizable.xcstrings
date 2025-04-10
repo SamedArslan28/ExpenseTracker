@@ -19,6 +19,9 @@
     "Add Fixed Income" : {
 
     },
+    "Amount" : {
+
+    },
     "Amount (%@)" : {
 
     },
@@ -38,6 +41,9 @@
 
     },
     "Chart" : {
+
+    },
+    "Chart Type" : {
 
     },
     "Clear All Data" : {
@@ -65,6 +71,9 @@
 
     },
     "Edit" : {
+
+    },
+    "Error" : {
 
     },
     "Expense" : {
@@ -109,6 +118,9 @@
     "Save Expense" : {
 
     },
+    "Search categories" : {
+
+    },
     "Select Currency" : {
 
     },
@@ -137,6 +149,9 @@
 
     },
     "Type" : {
+
+    },
+    "Use 24-hour format" : {
 
     },
     "You haven't added any fixed incomes yet. Tap + to add one." : {

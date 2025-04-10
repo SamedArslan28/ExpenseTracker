@@ -40,22 +40,3 @@ class DefaultTransaction: BaseTransaction {
     }
 }
 
-// TODO: - Move this logic to related part
-
-extension DefaultTransaction {
-    static func convertToCSV(transactions: [DefaultTransaction]) -> String {
-        var csvString = "id,name,category,amount,isExpense,isFixed,date,day\n"
-        for transaction in transactions {
-            let id = transaction.id.uuidString
-            let name = transaction.name
-            let category = transaction.category.rawValue
-            let amount = transaction.amount
-            let isExpense = transaction.isExpense ? "true" : "false"
-            let date = ISO8601DateFormatter().string(from: transaction.date)
-            let row = "\(id),\(name),\(category),\(amount),\(isExpense),\(date)\n"
-            csvString.append(row)
-        }
-        return csvString
-    }
-}
-

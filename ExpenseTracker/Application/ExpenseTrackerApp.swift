@@ -17,6 +17,7 @@ let logger = os.Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.abdulsame
 struct ExpenseTrackerApp: App {
     @AppStorage("selectedTheme")
     private var selectedTheme: Appearance = .system
+    
     var body: some Scene {
         WindowGroup {
             CustomTabBarView()
