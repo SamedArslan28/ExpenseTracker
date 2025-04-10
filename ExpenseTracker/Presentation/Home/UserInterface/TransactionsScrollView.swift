@@ -3,12 +3,12 @@ import SwiftData
 
 struct TransactionsScrollView: View {
     @Environment(\.modelContext) var modelContext
-    @Query(TransactionItem.getAll) var items: [TransactionItem]
+    @Query(DefaultTransaction.getAll) var items: [DefaultTransaction]
 
     @State private var showErrorAlert: Bool = false
     @State private var errorMessage: String = ""
     @State private var isEditTapped: Bool = false
-    @State private var selectedItem: TransactionItem?
+    @State private var selectedItem: DefaultTransaction?
     var body: some View {
         ScrollView(.vertical) {
             ForEach(items) { transaction in
