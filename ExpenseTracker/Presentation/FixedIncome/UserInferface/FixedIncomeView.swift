@@ -1,8 +1,11 @@
 import SwiftUI
+import SwiftData
 
 struct FixedIncomeView: View {
     @State private var isShowingAddIncomeSheet: Bool = false
-    @State private var viewModel: FixedIncomeViewModel = .init(dataSource: .shared)
+//    @State private var viewModel: FixedIncomeViewModel = .init(dataSource: .shared)
+    @Environment(\.modelContext) var modelContext
+    @Query(FixedTransaction.getAll) private var fixedTransactions: [FixedTransaction]
 
     var body: some View {
         VStack {
@@ -17,9 +20,9 @@ struct FixedIncomeView: View {
                 }
             }
         }
-        .sheet(isPresented: $isShowingAddIncomeSheet) { addIncomeSheet }
+//        .sheet(isPresented: $isShowingAddIncomeSheet) { addIncomeSheet }
         .onAppear {
-            viewModel.fetchFixedItems()
+//            viewModel.fetchFixedItems()
         }
         .navigationTitle("Fixed Income")
     }
@@ -27,7 +30,7 @@ struct FixedIncomeView: View {
     // MARK: - ViewBuilder Content
     @ViewBuilder
     private var contentView: some View {
-        if viewModel.fixedItems.isEmpty {
+        if fixedTransactions.isEmpty {
             emptyStateView
         } else {
             populatedListView
@@ -47,15 +50,16 @@ struct FixedIncomeView: View {
 
     private var populatedListView: some View {
         List {
-            ForEach(viewModel.fixedItems, id: \.id) { item in
+            ForEach(fixedTransactions, id: \.id) { item in
                 incomeItemView(for: item)
+           
             }
-            .onDelete(perform: deleteItems)
+//            .onDelete(perform: deleteItems)
             .listStyle(.plain)
         }
     }
 
-    private func incomeItemView(for item: TransactionItem) -> some View {
+    private func incomeItemView(for item: FixedTransaction) -> some View {
         HStack {
             Text(item.name)
             Spacer()
@@ -63,17 +67,17 @@ struct FixedIncomeView: View {
         }
     }
 
-    private var addIncomeSheet: some View {
-        AddFixedIncomeView(viewModel: $viewModel)
-    }
+//    private var addIncomeSheet: some View {
+////        AddFixedIncomeView(viewModel: $viewModel)
+//    }
 
-    // MARK: - Actions
-    private func deleteItems(at offsets: IndexSet) {
-        for index in offsets {
-            let itemToDelete = viewModel.fixedItems[index]
-            viewModel.deleteItem(itemToDelete)
-        }
-    }
+//    // MARK: - Actions
+//    private func deleteItems(at offsets: IndexSet) {
+//        for index in offsets {
+//            let itemToDelete = viewModel.fixedItems[index]
+//            viewModel.deleteItem(itemToDelete)
+//        }
+//    }
 }
 
 #Preview {

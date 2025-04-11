@@ -2,7 +2,7 @@ import SwiftUI
 
 struct AddFixedIncomeView: View {
     @Environment(\.dismiss) var dismiss
-    @Binding var viewModel: FixedIncomeViewModel
+//    @Binding var viewModel: FixedIncomeViewModel
     @State private var name: String = ""
     @State private var amount: String = ""
     @State private var selectedDay: Int = 1
@@ -72,19 +72,20 @@ extension AddFixedIncomeView {
 
 private extension AddFixedIncomeView {
     func saveExpense() {
-        guard let amountValue = Double(amount) else { return }
-        let newTransaction = TransactionItem(
-            name: name,
-            category: .other,
-            amount: amountValue,
-            isExpense: false,
-            isFixed: true,
-            date: .now,
-            day: selectedDay
-        )
-        viewModel.addFixedItem(newTransaction)
-        logger.info("New fixed income added: \(name), Amount: \(amountValue), Day: \(selectedDay)")
-        dismiss()
+//        guard let amountValue = Double(amount) else { return }
+//        let newTransaction = DefaultTransaction(
+//            name: name,
+//            category: .other,
+//            amount: amountValue,
+//            isExpense: false,
+//            isFixed: true,
+//            date: .now,
+//            day: selectedDay
+//        )
+//        print(newTransaction)
+////        viewModel/*.*/addFixedItem(newTransaction)
+//        logger.info("New fixed income added: \(name), Amount: \(amountValue), Day: \(selectedDay)")
+//        dismiss()
     }
 }
 

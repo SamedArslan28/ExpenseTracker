@@ -2,11 +2,11 @@ import SwiftUI
 import SwiftData
 
 struct TransactionChartSwitcherView: View {
-    @Query(TransactionItem.getAll) private var transactionItems: [TransactionItem]
+    @Query(DefaultTransaction.getAll) private var transactionItems: [DefaultTransaction]
     @Query(FixedTransaction.getAll) private var fixedTransactions: [FixedTransaction]
 
     var body: some View {
-        VStack(spacing: 22) {
+        ScrollView {
             TransactionChartSectionView(title: "Transactions", items: transactionItems)
             TransactionChartSectionView(title: "Fixed Transactions", items: fixedTransactions)
         }
