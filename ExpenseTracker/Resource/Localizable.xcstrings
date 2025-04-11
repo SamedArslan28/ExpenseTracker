@@ -4,10 +4,16 @@
     "" : {
 
     },
+    "-%@" : {
+
+    },
     "%lf" : {
 
     },
     "%lld" : {
+
+    },
+    "+%@" : {
 
     },
     "$%.2f" : {
@@ -106,6 +112,9 @@
     "No Fixed Incomes" : {
 
     },
+    "No transactions" : {
+
+    },
     "OK" : {
 
     },
@@ -142,10 +151,7 @@
     "Total Expenses" : {
 
     },
-    "Total Expenses:" : {
-
-    },
-    "Total Incomes:" : {
+    "Total Incomes" : {
 
     },
     "Type" : {

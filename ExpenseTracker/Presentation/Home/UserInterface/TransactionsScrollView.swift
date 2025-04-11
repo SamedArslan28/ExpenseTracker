@@ -3,8 +3,7 @@ import SwiftData
 
 struct TransactionsScrollView: View {
     @Environment(\.modelContext) var modelContext
-    @Query(DefaultTransaction.getAll) var items: [DefaultTransaction]
-
+    var items: [DefaultTransaction]
     @State private var showErrorAlert: Bool = false
     @State private var errorMessage: String = ""
     @State private var isEditTapped: Bool = false
@@ -12,7 +11,7 @@ struct TransactionsScrollView: View {
     var body: some View {
         ScrollView(.vertical) {
             ForEach(items) { transaction in
-                BalanceItemRow(transaction: transaction)
+                TransactionItemRow(transaction: transaction)
                     .padding(.horizontal, 20)
                     .padding(.vertical, 4)
                     .visualEffect { content, proxy in

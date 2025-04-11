@@ -8,17 +8,27 @@
 import Foundation
 import SwiftData
 
+
+
 @Model
 class DefaultTransaction: BaseTransaction {
     @Attribute(.unique) var id: UUID
     var name: String
-    var category: TransactionCategory
     var amount: Double
     var isExpense: Bool
     var date: Date
+    var categoryRawValue: String
+    var category: TransactionCategory {
+        get { TransactionCategory(rawValue: categoryRawValue) ?? .other }
+        set { categoryRawValue = newValue.rawValue }
+    }
 
     static var getAll: FetchDescriptor<DefaultTransaction> {
         FetchDescriptor<DefaultTransaction>()
+    }
+
+    static func filter(by category: TransactionCategory) -> Predicate<DefaultTransaction> {
+        #Predicate { $0.categoryRawValue == category.rawValue }
     }
 
     init(
@@ -27,16 +37,13 @@ class DefaultTransaction: BaseTransaction {
         category: TransactionCategory,
         amount: Double,
         isExpense: Bool,
-        isFixed: Bool = false,
-        date: Date,
-        day: Int? = nil
+        date: Date
     ) {
         self.id = id
         self.name = name
-        self.category = category
         self.amount = amount
         self.isExpense = isExpense
         self.date = date
+        self.categoryRawValue = category.rawValue 
     }
 }
-
