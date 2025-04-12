@@ -1,38 +1,37 @@
 import SwiftUI
 import TipKit
 
-struct AddExpenseView: View {
+struct AddTransactionView: View {
     @AppStorage("selectedCurrency") var selectedCurrency: String = Locale.current.currencySymbol ?? "$"
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
 
-    @State private var viewModel:AddExpenseViewModel = .init()
+    @State private var viewModel:AddTransactionViewModel = .init()
     @FocusState private var isInputActive: Bool
 
     var body: some View {
-        NavigationStack {
+        NavigationView {
             Form {
-                ExpenseDetailsSection(viewModel: $viewModel,
-                                      isInputActive: $isInputActive)
+                TransactionDetailsSection(viewModel: $viewModel,
+                                          isInputActive: $isInputActive)
                 CategorySection(viewModel: $viewModel)
                 DatePickerSection(viewModel: $viewModel)
             }
-            .navigationTitle("Add Expense")
-            .toolbar {
-                saveButton
-                keyboardDismissButton
-            }
+            .navigationTitle("Add Transaction")
             .alert("Item saved successfully",
                    isPresented: $viewModel.isShowingSuccessAlert) {
                 Button("OK") { dismiss() }
             }
+            .toolbar {
+                saveButton
+                keyboardDismissButton
+            }
         }
     }
-
     private var saveButton: some ToolbarContent {
-        ToolbarItem(placement: .confirmationAction) {
+        ToolbarItem(placement: .primaryAction) {
             Button("Save") {
-                saveExpense()
+                saveTransaction()
             }
             .disabled(!viewModel.isSaveButtonEnabled)
         }
@@ -49,7 +48,7 @@ struct AddExpenseView: View {
         }
     }
 
-    private func saveExpense() {
+    private func saveTransaction() {
         guard let transaction = viewModel.createTransaction() else { return }
         modelContext.insert(transaction)
         do {

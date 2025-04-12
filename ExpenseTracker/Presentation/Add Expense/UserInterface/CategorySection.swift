@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct CategorySection: View {
-    @Binding var viewModel: AddExpenseViewModel
+    @Binding var viewModel: AddTransactionViewModel
     let categories = TransactionCategory.allCases.filter { $0 != .fixedExpenses }
     var body: some View {
         Section(header: Text("Category")) {

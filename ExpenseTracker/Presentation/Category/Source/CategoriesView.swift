@@ -15,31 +15,35 @@ struct CategoriesView: View {
     }
 
     var body: some View {
-        Group {
-            if filteredCategories.isEmpty {
-                ContentUnavailableView.search
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-            } else {
-                ScrollView {
-                    LazyVGrid(
-                        columns: Array(repeating: GridItem(.flexible(), spacing: 16), count: 2),
-                        spacing: 16
-                    ) {
-                        ForEach(filteredCategories, id: \.rawValue) { category in
-                            NavigationLink(value: category) {
-                                CategoryCardView(category: category)
+        NavigationView {
+            Group {
+                if filteredCategories.isEmpty {
+                    ContentUnavailableView.search
+                        .frame(maxWidth: .infinity,
+                               maxHeight: .infinity,
+                               alignment: .center)
+                } else {
+                    ScrollView {
+                        LazyVGrid(
+                            columns: Array(repeating: GridItem(.flexible(), spacing: 16), count: 2),
+                            spacing: 16
+                        ) {
+                            ForEach(filteredCategories, id: \.rawValue) { category in
+                                NavigationLink(value: category) {
+                                    CategoryCardView(category: category)
+                                }
                             }
                         }
+                        .padding()
                     }
-                    .padding()
                 }
             }
-        }
-        .navigationTitle("Categories")
-        .navigationBarTitleDisplayMode(.large)
-        .searchable(text: $searchText, prompt: "Search categories")
-        .navigationDestination(for: TransactionCategory.self) { category in
-            CategoryDetailView(category: category)
+            .navigationTitle("Categories")
+            .navigationBarTitleDisplayMode(.large)
+            .searchable(text: $searchText, prompt: "Search categories")
+            .navigationDestination(for: TransactionCategory.self) { category in
+                CategoryDetailView(category: category)
+            }
         }
     }
 }

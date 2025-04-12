@@ -11,7 +11,7 @@ import Observation
 
 
 @Observable
-class AddExpenseViewModel: ObservableObject {
+class AddTransactionViewModel: ObservableObject {
      var name: String = ""
      var selectedCategory: TransactionCategory = .coffee
     var amount: Double = 0.0

@@ -7,23 +7,24 @@
 
 import SwiftUI
 
-struct ExpenseDetailsSection: View {
-    @Binding var viewModel: AddExpenseViewModel
+struct TransactionDetailsSection: View {
+    @Binding var viewModel: AddTransactionViewModel
     @FocusState.Binding  var isInputActive: Bool
     @AppStorage("selectedCurrency") var selectedCurrency: String = Locale.current.currencySymbol ?? "$"
 
     var body: some View {
-        NavigationStack {
-            TextField("Expense Name", text: $viewModel.name)
-                .autocapitalization(.words)
-                .scrollDismissesKeyboard(.immediately)
-            TextField("Amount (\(selectedCurrency))", value: $viewModel.amount, formatter: amountFormatter)
-                .focused($isInputActive)
-                .keyboardType(.decimalPad)
-        }
+        TextField("Expense Name", text: $viewModel.name)
+            .focused($isInputActive)
+            .autocapitalization(.words)
+            .scrollDismissesKeyboard(.immediately)
+        TextField("Amount (\(selectedCurrency))",
+                  value: $viewModel.amount,
+                  formatter: amountFormatter)
+        .focused($isInputActive)
+        .keyboardType(.decimalPad)
+
     }
-    
-     private var amountFormatter: NumberFormatter {
+    private var amountFormatter: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.groupingSeparator = Locale.current.groupingSeparator

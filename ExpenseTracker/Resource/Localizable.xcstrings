@@ -19,10 +19,10 @@
     "$%.2f" : {
 
     },
-    "Add Expense" : {
+    "Add Fixed Income" : {
 
     },
-    "Add Fixed Income" : {
+    "Add Transaction" : {
 
     },
     "Amount" : {

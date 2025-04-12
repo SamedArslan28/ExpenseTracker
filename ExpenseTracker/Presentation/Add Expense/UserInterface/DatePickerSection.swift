@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DatePickerSection: View {
-    @Binding var viewModel: AddExpenseViewModel
+    @Binding var viewModel: AddTransactionViewModel
 
     var body: some View {
         Section(header: Text("Date")) {
