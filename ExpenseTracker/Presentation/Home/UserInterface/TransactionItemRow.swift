@@ -19,7 +19,8 @@ struct TransactionItemRow: View {
                 Image(systemName:transaction.category.iconName)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 42, height: 42)
+                    .frame(width: 42,
+                           height: 42)
                     .foregroundColor(transaction.category.color)
                 VStack(alignment: .leading) {
                     Text(transaction.name)
@@ -31,7 +32,8 @@ struct TransactionItemRow: View {
                     .foregroundColor(transaction.isExpense ? .red : .green)
                     .fontWeight(.bold)
             }
-          
+            .padding(.vertical, 5)
+            .padding()
         }
     }
 

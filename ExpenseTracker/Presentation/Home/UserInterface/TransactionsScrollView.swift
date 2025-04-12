@@ -4,40 +4,49 @@ import SwiftData
 struct TransactionsScrollView: View {
     @Environment(\.modelContext) var modelContext
     var items: [DefaultTransaction]
+
+    @State private var visibleItems: [DefaultTransaction] = []
     @State private var showErrorAlert: Bool = false
     @State private var errorMessage: String = ""
     @State private var isEditTapped: Bool = false
     @State private var selectedItem: DefaultTransaction?
+
     var body: some View {
         ScrollView(.vertical) {
-            ForEach(items) { transaction in
-                TransactionItemRow(transaction: transaction)
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 4)
-                    .visualEffect { content, proxy in
-                        let frame: CGRect = proxy.frame(in: .scrollView(axis: .vertical))
-                        let distance: CGFloat = min(0, frame.minY)
-                        return content
-                            .scaleEffect(1 + distance / 700)
-                            .offset(y: -distance / 1.25)
-                            .blur(radius: -distance / 50)
-                    }
-                    .contextMenu {
-                        Button("Edit") {
-                           isEditTapped = true
+            LazyVStack {
+                ForEach(visibleItems) { transaction in
+                    TransactionItemRow(transaction: transaction)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 4)
+                        .visualEffect { content, proxy in
+                            let frame: CGRect = proxy.frame(in: .scrollView(axis: .vertical))
+                            let distance: CGFloat = min(0, frame.minY)
+                            return content
+                                .scaleEffect(1 + distance / 700)
+                                .offset(y: -distance / 1.25)
+                                .blur(radius: -distance / 50)
                         }
-                        Button(role: .destructive) {
-                            modelContext.delete(transaction)
-                            do {
-                                try modelContext.save()
-                            } catch {
-                                logger.error("Failed to delete transaction: \(error.localizedDescription)")
+                        .contextMenu {
+                            Button("Edit") {
+                                selectedItem = transaction
+                                isEditTapped = true
                             }
-                        } label: {
-                            Label("Delete", systemImage: "trash")
+                            Button(role: .destructive) {
+                                withAnimation(.easeInOut) {
+                                    delete(transaction)
+                                }
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
                         }
-                    }
+                        .transition(.asymmetric(insertion: .opacity,
+                                                removal: .slide.combined(with: .opacity)))
+                        .id(transaction.id)
+                }
             }
+        }
+        .onAppear {
+            visibleItems = items
         }
         .offset(y: -20)
         .alert("Error", isPresented: $showErrorAlert) {
@@ -47,6 +56,20 @@ struct TransactionsScrollView: View {
         }
         .sheet(isPresented: $isEditTapped) {
             Text("Edit")
+        }
+    }
+
+    private func delete(_ transaction: DefaultTransaction) {
+        visibleItems.removeAll { $0.id == transaction.id }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            modelContext.delete(transaction)
+            do {
+                try modelContext.save()
+            } catch {
+                errorMessage = "Failed to delete transaction: \(error.localizedDescription)"
+                showErrorAlert = true
+            }
         }
     }
 }

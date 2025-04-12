@@ -18,7 +18,8 @@ struct AddFixedIncomeView: View {
                 expenseDetailsSection
                 datePickerSection
             }
-            .overlay(saveButton, alignment: .bottom)
+            .overlay(saveButton,
+                     alignment: .bottom)
             .toolbar { keyboardToolbar }
         }
     }
