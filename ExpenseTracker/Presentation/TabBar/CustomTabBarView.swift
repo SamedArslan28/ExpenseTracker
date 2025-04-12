@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct CustomTabBarView: View {
-    @State private var selectedTab: Tabs = .add
+    @State private var selectedTab: Tabs = .home
     @Environment(\.modelContext) private var context
 
     var body: some View {
@@ -18,7 +18,7 @@ struct CustomTabBarView: View {
             }
 
             Tab("", image: "plus.circle.fill", value: .add) {
-                    AddExpenseView()
+                AddExpenseView()
             }
 
             Tab("Chart", systemImage: "chart.pie", value: .chart) {

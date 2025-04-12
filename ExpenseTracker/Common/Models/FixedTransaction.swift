@@ -20,7 +20,15 @@ class FixedTransaction: BaseTransaction {
     var isExpense: Bool
     var category: TransactionCategory
 
-    init(id: UUID, name: String, date: Date, amount: Double, day: Int, isExpense: Bool, category: TransactionCategory) {
+    init(
+        id: UUID,
+        name: String,
+        date: Date,
+        amount: Double,
+        day: Int,
+        isExpense: Bool,
+        category: TransactionCategory
+    ) {
         self.id = id
         self.name = name
         self.date = date

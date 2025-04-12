@@ -8,7 +8,7 @@
 import Charts
 import SwiftUI
 
- struct PieChart: View {
+struct PieChart: View {
     var groupedData: [(key: TransactionCategory, value: Double)]
     var totalExpense: Double
 
@@ -34,7 +34,8 @@ import SwiftUI
                     Text("$\(totalExpense, specifier: "%.2f")")
                         .font(.title2.bold())
                 }
-                .position(x: frame.midX, y: frame.midY)
+                .position(x: frame.midX,
+                          y: frame.midY)
             }
         }
     }

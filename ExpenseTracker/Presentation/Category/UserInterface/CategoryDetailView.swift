@@ -23,16 +23,12 @@ struct CategoryDetailView: View {
     }
     
     var body: some View {
-        
-        
-        
         VStack(spacing: 16) {
             categoryHeader
             totalsCard
             transactionList
         }
         .padding()
-        
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
     }
