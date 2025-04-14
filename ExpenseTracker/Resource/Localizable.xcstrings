@@ -76,12 +76,6 @@
     "Done" : {
 
     },
-    "Edit" : {
-
-    },
-    "Error" : {
-
-    },
     "Expense" : {
 
     },
@@ -130,6 +124,9 @@
     "Search categories" : {
 
     },
+    "Select  hour" : {
+
+    },
     "Select Currency" : {
 
     },
@@ -137,6 +134,9 @@
 
     },
     "Settings" : {
+
+    },
+    "Test" : {
 
     },
     "Theme" : {
@@ -152,6 +152,9 @@
 
     },
     "Total Incomes" : {
+
+    },
+    "Transaction Charts" : {
 
     },
     "Type" : {

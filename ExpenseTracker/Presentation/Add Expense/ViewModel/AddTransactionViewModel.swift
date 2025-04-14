@@ -5,19 +5,18 @@
 //  Created by Abdulsamed Arslan on 9.04.2025.
 //
 
-import Combine
+
 import Foundation
 import Observation
 
-
 @Observable
-class AddTransactionViewModel: ObservableObject {
-     var name: String = ""
-     var selectedCategory: TransactionCategory = .coffee
+class AddTransactionViewModel {
+    var name: String = ""
+    var selectedCategory: TransactionCategory = .coffee
     var amount: Double = 0.0
-     var transactionType: TransactionType = .expense
-     var selectedDate: Date = .now
-     var isShowingSuccessAlert: Bool = false
+    var transactionType: TransactionType = .expense
+    var selectedDate: Date = .now
+    var isShowingSuccessAlert: Bool = false
 
     var isSaveButtonEnabled: Bool {
         guard amount > 0 else { return false }

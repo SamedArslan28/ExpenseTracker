@@ -6,29 +6,38 @@ struct CustomTabBarView: View {
     @Environment(\.modelContext) private var context
 
     var body: some View {
-        NavigationStack {
-            TabView(selection: $selectedTab) {
-                Tab("Home", systemImage: "house", value: .home) {
-                    HomeView()
-                }
-
-                Tab("Category", systemImage: "square.grid.2x2", value: .category) {
-                    CategoriesView()
-                }
-
-                Tab("", image: "plus.circle.fill", value: .add) {
-                    AddTransactionView()
-                }
-                
-                Tab("Chart", systemImage: "chart.pie", value: .chart) {
-                    TransactionChartSwitcherView()
-                }
-
-                Tab("Settings", systemImage: "gear", value: .profile) {
-
-                    SettingsView()
-                }
+        TabView(selection: $selectedTab) {
+            NavigationStack {
+                HomeView()
             }
+            .tabItem { Label("Home", systemImage: "house") }
+
+            NavigationStack {
+                CategoriesView()
+                    .navigationTitle("Categories")
+                    .navigationDestination(for: TransactionCategory.self) { category in
+                        CategoryDetailView(category: category)
+                    }
+            }
+            .tabItem { Label("Categories", systemImage: "square.grid.2x2") }
+
+
+            NavigationView {
+                AddTransactionView()
+            }
+            .tabItem { Label("", image: "plus.circle.fill") }
+            .tag(Tabs.add)
+
+
+            NavigationStack {
+                TransactionChartSwitcherView()
+            }
+            .tabItem { Label("Chart", systemImage: "chart.pie") }
+
+            NavigationStack {
+                SettingsView()
+            }
+            .tabItem { Label("Settings", systemImage: "gear") }
         }
         .tint(.blue)
     }

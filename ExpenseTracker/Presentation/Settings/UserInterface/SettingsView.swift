@@ -16,15 +16,14 @@ struct SettingsView: View {
     @State private var fileExportMessage: String = ""
     @State private var showFileExporter: Bool = false
 
-
     var body: some View {
-        NavigationView {
+
             Form {
                 PreferencesSection()
                 BudgetSection()
                 DataManagementSection(showFileExporter: $showFileExporter)
             }
-            .navigationTitle("Settings")
+            .navigationTitle("Settings").navigationBarTitleDisplayMode(.large)
             .fileExporter(
                 isPresented: $showFileExporter,
                 document: CSVDocument(
@@ -49,7 +48,7 @@ struct SettingsView: View {
             } message: {
                 Text(fileExportMessage)
             }
-        }
+
     }
 }
 

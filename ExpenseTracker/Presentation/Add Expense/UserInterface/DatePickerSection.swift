@@ -13,6 +13,14 @@ struct DatePickerSection: View {
     var body: some View {
         Section(header: Text("Date")) {
             DatePicker(
+                "Select  hour",
+                selection: $viewModel.selectedDate,
+                in: ...Date(),
+                displayedComponents: .hourAndMinute
+            )
+            .datePickerStyle(.graphical)
+
+            DatePicker(
                 "Select Expense Date",
                 selection: $viewModel.selectedDate,
                 in: ...Date(),

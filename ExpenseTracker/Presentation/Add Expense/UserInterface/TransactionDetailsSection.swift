@@ -13,15 +13,19 @@ struct TransactionDetailsSection: View {
     @AppStorage("selectedCurrency") var selectedCurrency: String = Locale.current.currencySymbol ?? "$"
 
     var body: some View {
-        TextField("Expense Name", text: $viewModel.name)
+        Section {
+            TextField("Expense Name", text: $viewModel.name)
+                .focused($isInputActive)
+                .autocapitalization(.words)
+                .scrollDismissesKeyboard(.immediately)
+                .keyboardType(.alphabet)
+                .disableAutocorrection(true)
+            TextField("Amount (\(selectedCurrency))",
+                      value: $viewModel.amount,
+                      formatter: amountFormatter)
             .focused($isInputActive)
-            .autocapitalization(.words)
-            .scrollDismissesKeyboard(.immediately)
-        TextField("Amount (\(selectedCurrency))",
-                  value: $viewModel.amount,
-                  formatter: amountFormatter)
-        .focused($isInputActive)
-        .keyboardType(.decimalPad)
+            .keyboardType(.numberPad)
+        }
 
     }
     private var amountFormatter: NumberFormatter {
