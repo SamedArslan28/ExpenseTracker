@@ -73,7 +73,19 @@
     "Delete" : {
 
     },
+    "Details" : {
+
+    },
     "Done" : {
+
+    },
+    "Edit" : {
+
+    },
+    "Edit Transaction" : {
+
+    },
+    "Error" : {
 
     },
     "Expense" : {
@@ -100,7 +112,13 @@
     "Income" : {
 
     },
+    "Is Expense" : {
+
+    },
     "Item saved successfully" : {
+
+    },
+    "Name" : {
 
     },
     "No Fixed Incomes" : {
@@ -134,9 +152,6 @@
 
     },
     "Settings" : {
-
-    },
-    "Test" : {
 
     },
     "Theme" : {

@@ -43,7 +43,7 @@ struct AddTransactionView: View {
         ToolbarItemGroup(placement: .keyboard) {
             Spacer()
             Button {
-                isInputActive = false  // Manually dismiss the keyboard
+                isInputActive = false
             } label: {
                 Image(systemName: "keyboard.chevron.compact.down")
             }

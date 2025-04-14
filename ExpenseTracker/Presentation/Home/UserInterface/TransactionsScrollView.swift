@@ -15,33 +15,28 @@ struct TransactionsScrollView: View {
         ScrollView(.vertical) {
             LazyVStack {
                 ForEach(visibleItems) { transaction in
-                    TransactionItemRow(transaction: transaction)
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 4)
-                        .visualEffect { content, proxy in
-                            let frame: CGRect = proxy.frame(in: .scrollView(axis: .vertical))
-                            let distance: CGFloat = min(0, frame.minY)
-                            return content
-                                .scaleEffect(1 + distance / 700)
-                                .offset(y: -distance / 1.25)
-                                .blur(radius: -distance / 50)
-                        }
-                        .contextMenu {
-                            Button("Edit") {
-                                selectedItem = transaction
-                                isEditTapped = true
-                            }
-                            Button(role: .destructive) {
-                                withAnimation(.easeInOut) {
-                                    delete(transaction)
-                                }
-                            } label: {
-                                Label("Delete", systemImage: "trash")
+                    TransactionItemRow(
+                        transaction: transaction,
+                        onEditTapped: {
+                            selectedItem = transaction
+                            isEditTapped = true
+                        },
+                        onDeleteTapped: {
+                            withAnimation(.easeInOut) {
+                                delete(transaction)
                             }
                         }
-                        .transition(.asymmetric(insertion: .opacity,
-                                                removal: .slide.combined(with: .opacity)))
-                        .id(transaction.id)
+                    )
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 4)
+                    .visualEffect { content, proxy in
+                        let frame: CGRect = proxy.frame(in: .scrollView(axis: .vertical))
+                        let distance: CGFloat = min(0, frame.minY)
+                        return content
+                            .scaleEffect(1 + distance / 700)
+                            .offset(y: -distance / 1.25)
+                            .blur(radius: -distance / 50)
+                    }
                 }
             }
         }
@@ -55,7 +50,9 @@ struct TransactionsScrollView: View {
             Text(errorMessage)
         }
         .sheet(isPresented: $isEditTapped) {
-            Text("Edit")
+            if let selectedItem {
+                Text(selectedItem.id.uuidString)
+            }
         }
     }
 
