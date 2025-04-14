@@ -8,8 +8,6 @@
 import Foundation
 import SwiftData
 
-
-
 @Model
 class DefaultTransaction: BaseTransaction {
     @Attribute(.unique) var id: UUID

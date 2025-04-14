@@ -8,6 +8,7 @@
 import SwiftUICore
 
 enum TransactionCategory: String, CaseIterable, Codable {
+
     case coffee = "Coffee"
     case food = "Food"
     case other = "Other"

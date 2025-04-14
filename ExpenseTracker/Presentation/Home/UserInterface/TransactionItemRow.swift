@@ -38,6 +38,7 @@ struct TransactionItemRow: View {
             .padding(.vertical, 5)
             .padding()
         }
+        .contentShape(RoundedRectangle(cornerRadius: 12))
         .contextMenu {
             Button("Edit") {
                 onEditTapped()
@@ -48,6 +49,9 @@ struct TransactionItemRow: View {
                 Label("Delete", systemImage: "trash")
             }
         }
+        .onAppear(perform: {
+            
+        })
         .transition(.asymmetric(insertion: .opacity,
                                 removal: .slide.combined(with: .opacity)))
         .id(transaction.id)

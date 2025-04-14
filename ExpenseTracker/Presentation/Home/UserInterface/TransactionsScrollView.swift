@@ -8,8 +8,9 @@ struct TransactionsScrollView: View {
     @State private var visibleItems: [DefaultTransaction] = []
     @State private var showErrorAlert: Bool = false
     @State private var errorMessage: String = ""
-    @State private var isEditTapped: Bool = false
+
     @State private var selectedItem: DefaultTransaction?
+
 
     var body: some View {
         ScrollView(.vertical) {
@@ -18,8 +19,9 @@ struct TransactionsScrollView: View {
                     TransactionItemRow(
                         transaction: transaction,
                         onEditTapped: {
-                            selectedItem = transaction
-                            isEditTapped = true
+                            withAnimation {
+                                selectedItem = transaction
+                            }
                         },
                         onDeleteTapped: {
                             withAnimation(.easeInOut) {
@@ -49,16 +51,13 @@ struct TransactionsScrollView: View {
         } message: {
             Text(errorMessage)
         }
-        .sheet(isPresented: $isEditTapped) {
-            if let selectedItem {
-                Text(selectedItem.id.uuidString)
-            }
-        }
+        .sheet(item: $selectedItem) { item in
+                   EditTransactionView(transaction: item)
+               }
     }
 
     private func delete(_ transaction: DefaultTransaction) {
         visibleItems.removeAll { $0.id == transaction.id }
-
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             modelContext.delete(transaction)
             do {
