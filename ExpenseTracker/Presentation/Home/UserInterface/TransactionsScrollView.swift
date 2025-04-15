@@ -5,17 +5,14 @@ struct TransactionsScrollView: View {
     @Environment(\.modelContext) var modelContext
     var items: [DefaultTransaction]
 
-    @State private var visibleItems: [DefaultTransaction] = []
     @State private var showErrorAlert: Bool = false
     @State private var errorMessage: String = ""
-
     @State private var selectedItem: DefaultTransaction?
-
 
     var body: some View {
         ScrollView(.vertical) {
             LazyVStack {
-                ForEach(visibleItems) { transaction in
+                ForEach(items) { transaction in
                     TransactionItemRow(
                         transaction: transaction,
                         onEditTapped: {
@@ -42,9 +39,6 @@ struct TransactionsScrollView: View {
                 }
             }
         }
-        .onAppear {
-            visibleItems = items
-        }
         .offset(y: -20)
         .alert("Error", isPresented: $showErrorAlert) {
             Button("OK", role: .cancel) {}
@@ -52,20 +46,17 @@ struct TransactionsScrollView: View {
             Text(errorMessage)
         }
         .sheet(item: $selectedItem) { item in
-                   EditTransactionView(transaction: item)
-               }
+            EditTransactionView(transaction: item)
+        }
     }
 
     private func delete(_ transaction: DefaultTransaction) {
-        visibleItems.removeAll { $0.id == transaction.id }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            modelContext.delete(transaction)
-            do {
-                try modelContext.save()
-            } catch {
-                errorMessage = "Failed to delete transaction: \(error.localizedDescription)"
-                showErrorAlert = true
-            }
+        modelContext.delete(transaction)
+        do {
+            try modelContext.save()
+        } catch {
+            errorMessage = "Failed to delete transaction: \(error.localizedDescription)"
+            showErrorAlert = true
         }
     }
 }

@@ -1,6 +1,8 @@
 import SwiftUI
 import TipKit
 
+// TODO: - Remove succes message and only show alert when there is an error.
+
 struct AddTransactionView: View {
     @AppStorage("selectedCurrency") var selectedCurrency: String = Locale.current.currencySymbol ?? "$"
     @Environment(\.dismiss) private var dismiss
@@ -16,8 +18,6 @@ struct AddTransactionView: View {
             CategorySection(viewModel: $viewModel)
             DatePickerSection(viewModel: $viewModel)
         }
-        .scrollDismissesKeyboard(.immediately)
-        .navigationTitle("Add Transaction")
         .toolbar {
             saveButton
             keyboardDismissButton
@@ -65,7 +65,7 @@ struct AddTransactionView: View {
         modelContext.insert(transaction)
         do {
             try modelContext.save()
-            viewModel.isShowingSuccessAlert = true
+            dismiss()
             viewModel.reset()
         } catch  {
             print(error)
