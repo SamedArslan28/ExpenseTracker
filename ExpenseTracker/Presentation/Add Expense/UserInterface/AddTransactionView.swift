@@ -1,14 +1,13 @@
 import SwiftUI
-import TipKit
-
-// TODO: - Remove succes message and only show alert when there is an error.
 
 struct AddTransactionView: View {
     @AppStorage("selectedCurrency") var selectedCurrency: String = Locale.current.currencySymbol ?? "$"
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
-    @State private var viewModel: AddTransactionViewModel = .init()
     @FocusState private var isInputActive: Bool
+
+    @State private var viewModel: AddTransactionViewModel = .init()
+    @State private var showErrorMessage: Bool = false
 
     var body: some View {
         Form {
@@ -22,11 +21,12 @@ struct AddTransactionView: View {
             saveButton
             keyboardDismissButton
         }
-        .alert("Item saved successfully",
-               isPresented: $viewModel.isShowingSuccessAlert) {
+        .alert("Error", isPresented: $showErrorMessage) {
             Button("OK") {
                 dismiss()
             }
+        } message: {
+            Text("There was an error saving the transaction.")
         }
     }
 
@@ -50,16 +50,6 @@ struct AddTransactionView: View {
         }
     }
 
-    private var amountFormatter: NumberFormatter {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.groupingSeparator = Locale.current.groupingSeparator
-        formatter.decimalSeparator = Locale.current.decimalSeparator
-        formatter.maximumFractionDigits = 2
-        formatter.minimumFractionDigits = 0
-        return formatter
-    }
-
     private func saveTransaction() {
         guard let transaction = viewModel.createTransaction() else { return }
         modelContext.insert(transaction)
@@ -68,7 +58,7 @@ struct AddTransactionView: View {
             dismiss()
             viewModel.reset()
         } catch  {
-            print(error)
+            showErrorMessage = true
         }
     }
 }

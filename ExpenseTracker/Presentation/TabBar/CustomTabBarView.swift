@@ -5,9 +5,7 @@ struct CustomTabBarView: View {
     var body: some View {
         TabView {
             Tab("Home", systemImage: "house") {
-                NavigationStack {
-                    HomeView()
-                }
+                HomeView()
             }
 
             Tab("Categories", systemImage: "square.grid.2x2") {

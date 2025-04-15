@@ -13,14 +13,15 @@ import Observation
 class AddTransactionViewModel {
     var name: String = ""
     var selectedCategory: TransactionCategory = .coffee
-    var amount: Double = 0.0
+    var amount: Double? = nil
     var transactionType: TransactionType = .expense
     var selectedDate: Date = .now
-    var isShowingSuccessAlert: Bool = false
 
     var isSaveButtonEnabled: Bool {
-        guard amount > 0 else { return false }
-        return !name.isEmpty
+        if let amount = amount, amount > 0 {
+            return !name.isEmpty
+        }
+        return false
     }
 
     func reset() {
@@ -32,6 +33,7 @@ class AddTransactionViewModel {
     }
 
     func createTransaction() -> DefaultTransaction? {
+        guard let amount else { return nil }
         return DefaultTransaction(
             name: name,
             category: selectedCategory,

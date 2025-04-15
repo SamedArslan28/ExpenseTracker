@@ -7,13 +7,15 @@
 
 import SwiftUI
 
+// TODO: - Clean amount textfield when tapped
+
 struct TransactionDetailsSection: View {
     @Binding var viewModel: AddTransactionViewModel
     @FocusState.Binding  var isInputActive: Bool
     @AppStorage("selectedCurrency") var selectedCurrency: String = Locale.current.currencySymbol ?? "$"
 
     var body: some View {
-        Section {
+        Section("Transaction Details") {
             TextField("Expense Name", text: $viewModel.name)
                 .focused($isInputActive)
                 .autocapitalization(.words)

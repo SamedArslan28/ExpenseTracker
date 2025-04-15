@@ -22,9 +22,6 @@
     "Add Fixed Income" : {
 
     },
-    "Add Transaction" : {
-
-    },
     "Amount" : {
 
     },
@@ -118,9 +115,6 @@
     "Is Expense" : {
 
     },
-    "Item saved successfully" : {
-
-    },
     "Name" : {
 
     },
@@ -160,6 +154,9 @@
     "Theme" : {
 
     },
+    "There was an error saving the transaction." : {
+
+    },
     "This is a demo tip. Falan filan dersin sonra bakarsin isine." : {
 
     },
@@ -170,6 +167,9 @@
 
     },
     "Total Incomes" : {
+
+    },
+    "Transaction Details" : {
 
     },
     "Type" : {

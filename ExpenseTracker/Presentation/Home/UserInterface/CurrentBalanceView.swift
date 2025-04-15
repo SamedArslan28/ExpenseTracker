@@ -10,24 +10,38 @@ import SwiftUI
 struct CurrentBalanceView: View {
     @State private var currentBalance: Int = 32_465
     @AppStorage("selectedCurrency") private var selectedCurrency: String = "USD"
+    @State private var showAddTransactionSheet: Bool = false
+
 
     var body: some View {
-        VStack {
-            Text("Current Balance")
-                .font(.title3)
-                .foregroundStyle(.thinMaterial)
-            Text(currentBalance.formatted(.currency(code: selectedCurrency)).description)
-                .font(.largeTitle)
-                .foregroundStyle(.white)
-            Text(Date().formatted(.dateTime.year().month(.wide)))
-                .foregroundStyle(.white)
-            HStack {
-                TransactionsDetailView(isIncome: true)
-                Spacer()
-                TransactionsDetailView(isIncome: false)
+        ZStack {
+            VStack {
+                HStack {
+                    Spacer()
+                    Button {
+                        showAddTransactionSheet = true
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.system(size: 38))
+                            .foregroundStyle(.white)
+                    }
+                }
+                Text("Current Balance")
+                    .font(.title3)
+                    .foregroundStyle(.thinMaterial)
+                Text(currentBalance.formatted(.currency(code: selectedCurrency)).description)
+                    .font(.largeTitle)
+                    .foregroundStyle(.white)
+                Text(Date().formatted(.dateTime.year().month(.wide)))
+                    .foregroundStyle(.white)
+                HStack {
+                    TransactionsDetailView(isIncome: true)
+                    Spacer()
+                    TransactionsDetailView(isIncome: false)
+                }
             }
         }
-        .padding(50)
+        .padding(28)
         .frame(maxWidth: .infinity)
         .background(
             MeshGradient (
@@ -45,6 +59,11 @@ struct CurrentBalanceView: View {
             )
             .ignoresSafeArea()
         )
+        .sheet(isPresented: $showAddTransactionSheet) {
+            NavigationStack {
+                AddTransactionView()
+            }
+        }
     }
 }
 
