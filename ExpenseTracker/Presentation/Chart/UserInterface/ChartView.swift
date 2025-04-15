@@ -9,10 +9,6 @@ struct TransactionChartSwitcherView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Transaction Charts")
-                .font(.largeTitle.bold())
-                .padding(.horizontal)
-
             Picker("Category", selection: $selectedCategory) {
                 ForEach(ChartCategory.allCases) { category in
                     Text(category.rawValue).tag(category)
@@ -33,6 +29,7 @@ struct TransactionChartSwitcherView: View {
                 .padding(.vertical)
             }
         }
+        .navigationTitle("Charts")
     }
 }
 
