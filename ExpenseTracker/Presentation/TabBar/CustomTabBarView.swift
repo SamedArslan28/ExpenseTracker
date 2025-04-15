@@ -2,43 +2,37 @@ import SwiftUI
 import SwiftData
 
 struct CustomTabBarView: View {
-    @State private var selectedTab: Tabs = .home
-    @Environment(\.modelContext) private var context
-
     var body: some View {
-        TabView(selection: $selectedTab) {
-            NavigationStack {
-                HomeView()
+        TabView {
+            Tab("Home", systemImage: "house") {
+                NavigationStack {
+                    HomeView()
+                }
             }
-            .tabItem { Label("Home", systemImage: "house") }
 
-            NavigationStack {
-                CategoriesView()
-                    .navigationTitle("Categories")
-                    .navigationDestination(for: TransactionCategory.self) { category in
-                        CategoryDetailView(category: category)
-                    }
+            Tab("Categories", systemImage: "square.grid.2x2") {
+                NavigationStack {
+                    CategoriesView()
+                        .navigationTitle("Categories")
+                        .navigationDestination(for: TransactionCategory.self) { category in
+                            CategoryDetailView(category: category)
+                        }
+                }
             }
-            .tabItem { Label("Categories", systemImage: "square.grid.2x2") }
 
-
-            NavigationView {
-                AddTransactionView()
+            Tab("Chart", systemImage: "chart.pie") {
+                NavigationStack {
+                    TransactionChartSwitcherView()
+                }
             }
-            .tabItem { Label("", image: "plus.circle.fill") }
-            .tag(Tabs.add)
 
-
-            NavigationStack {
-                TransactionChartSwitcherView()
+            Tab("Settings", systemImage: "gear") {
+                NavigationStack {
+                    SettingsView()
+                }
             }
-            .tabItem { Label("Chart", systemImage: "chart.pie") }
-
-            NavigationStack {
-                SettingsView()
-            }
-            .tabItem { Label("Settings", systemImage: "gear") }
         }
         .tint(.blue)
+        .tabViewStyle(.sidebarAdaptable)
     }
 }
