@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct AddTransactionView: View {
-    @AppStorage("selectedCurrency") var selectedCurrency: String = Locale.current.currencySymbol ?? "$"
+
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @FocusState private var isInputActive: Bool

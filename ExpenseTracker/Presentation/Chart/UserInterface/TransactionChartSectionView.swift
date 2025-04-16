@@ -33,30 +33,32 @@ struct TransactionChartSectionView: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            Text(title)
-                .font(.title2.bold())
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal)
 
-            Picker("Chart Type", selection: $selectedChart) {
-                ForEach(ChartType.allCases) { chart in
-                    Text(chart.rawValue).tag(chart)
-                }
-            }
-            .pickerStyle(.segmented)
-            .padding(.horizontal)
-
-            switch selectedChart {
-                case .pie:
-                    PieChart(
-                        groupedData: groupedData,
-                        totalExpense: totalExpense
-                    )
-                case .bar:
-                    BarChart(
-                        groupedData: groupedData
-                    )
-            }
+            MonthlyExpense()
+//            Text(title)
+//                .font(.title2.bold())
+//                .frame(maxWidth: .infinity, alignment: .leading)
+//                .padding(.horizontal)
+//
+//            Picker("Chart Type", selection: $selectedChart) {
+//                ForEach(ChartType.allCases) { chart in
+//                    Text(chart.rawValue).tag(chart)
+//                }
+//            }
+//            .pickerStyle(.segmented)
+//            .padding(.horizontal)
+//
+//            switch selectedChart {
+//                case .pie:
+//                    PieChart(
+//                        groupedData: groupedData,
+//                        totalExpense: totalExpense
+//                    )
+//                case .bar:
+//                    BarChart(
+//                        groupedData: groupedData
+//                    )
+//            }
         }
         .padding()
         .background(

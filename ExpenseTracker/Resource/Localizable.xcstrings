@@ -7,6 +7,16 @@
     "-%@" : {
 
     },
+    "%@%.2f" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@%2$.2f"
+          }
+        }
+      }
+    },
     "%lf" : {
 
     },
@@ -44,9 +54,6 @@
 
     },
     "Chart" : {
-
-    },
-    "Chart Type" : {
 
     },
     "Charts" : {
@@ -115,7 +122,16 @@
     "Is Expense" : {
 
     },
+    "Month" : {
+
+    },
     "Name" : {
+
+    },
+    "No Data Found" : {
+
+    },
+    "No expenses found for the selected category." : {
 
     },
     "No Fixed Incomes" : {
@@ -142,10 +158,16 @@
     "Select  hour" : {
 
     },
+    "Select a Category" : {
+
+    },
     "Select Currency" : {
 
     },
     "Select Expense Date" : {
+
+    },
+    "Selected" : {
 
     },
     "Settings" : {
