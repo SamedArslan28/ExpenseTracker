@@ -7,16 +7,6 @@
     "-%@" : {
 
     },
-    "%@%.2f" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@%2$.2f"
-          }
-        }
-      }
-    },
     "%lf" : {
 
     },
@@ -165,9 +155,6 @@
 
     },
     "Select Expense Date" : {
-
-    },
-    "Selected" : {
 
     },
     "Settings" : {
