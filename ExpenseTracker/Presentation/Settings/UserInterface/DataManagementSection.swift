@@ -19,7 +19,7 @@ struct DataManagementSection: View {
     @Binding var showFileExporter: Bool
 
     // FIXME: - Fix this tips name
-    private let exportToCSVTip = DemoTip()
+    private let exportToCSVTip = ExportCSVTip()
 
     var body: some View {
         Section(header: Text("Data")) {

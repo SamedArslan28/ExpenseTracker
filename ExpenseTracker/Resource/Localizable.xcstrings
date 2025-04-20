@@ -64,6 +64,9 @@
     "Date" : {
 
     },
+    "Date Range" : {
+
+    },
     "Day" : {
 
     },
@@ -98,6 +101,9 @@
 
     },
     "Export Result" : {
+
+    },
+    "Export Your Data" : {
 
     },
     "Fixed Income" : {
@@ -166,12 +172,6 @@
     "There was an error saving the transaction." : {
 
     },
-    "This is a demo tip. Falan filan dersin sonra bakarsin isine." : {
-
-    },
-    "Tip demo" : {
-
-    },
     "Total Expenses" : {
 
     },
@@ -185,6 +185,9 @@
 
     },
     "Use 24-hour format" : {
+
+    },
+    "You can export your transactions as a CSV file to use in other apps or keep for your records." : {
 
     },
     "You haven't added any fixed incomes yet. Tap + to add one." : {
