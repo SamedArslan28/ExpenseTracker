@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-// TODO: - Clean amount textfield when tapped
-
 struct TransactionDetailsSection: View {
     @Binding var viewModel: AddTransactionViewModel
     @FocusState.Binding  var isInputActive: Bool
