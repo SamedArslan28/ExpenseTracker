@@ -19,14 +19,12 @@ struct CategoryPicker: View {
             Spacer()
             Picker("Category", selection: $selectedCategory.animation(.easeInOut)) {
                 ForEach(categories, id: \.self) { category in
-                    HStack {
+                    Label {
+                        Text(category.rawValue.capitalized)
+                    } icon: {
                         Image(systemName: category.iconName)
-                            .resizable()
-                            .frame(width: 20,
-                                   height: 20)
                             .symbolRenderingMode(.palette)
                             .foregroundStyle(category.color)
-                        Text(category.rawValue.capitalized)
                     }
                 }
             }

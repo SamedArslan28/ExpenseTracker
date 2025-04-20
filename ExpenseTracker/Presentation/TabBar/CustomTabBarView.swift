@@ -30,7 +30,6 @@ struct CustomTabBarView: View {
                 }
             }
         }
-        .tint(.blue)
         .tabViewStyle(.sidebarAdaptable)
     }
 }

@@ -45,8 +45,12 @@ struct BarChartScreen: View {
             BarChartView(transactions: filteredTransactions)
         }
         .padding()
+        .frame(alignment: .top)
     }
 }
 
+#Preview {
+    BarChartScreen(selectedRange: .week)
+}
 
 
