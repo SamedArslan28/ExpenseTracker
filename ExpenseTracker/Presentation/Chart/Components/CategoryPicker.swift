@@ -22,7 +22,8 @@ struct CategoryPicker: View {
                     HStack {
                         Image(systemName: category.iconName)
                             .resizable()
-                            .frame(width: 20, height: 20)
+                            .frame(width: 20,
+                                   height: 20)
                             .symbolRenderingMode(.palette)
                             .foregroundStyle(category.color)
                         Text(category.rawValue.capitalized)
@@ -33,3 +34,8 @@ struct CategoryPicker: View {
         }
     }
 }
+
+
+
+
+

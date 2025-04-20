@@ -31,5 +31,5 @@ struct CategoryCardView: View {
 }
 
 #Preview {
-    CategoriesView()
+    CategoriesScreen()
 }
