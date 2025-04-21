@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct ChartDetailView: View {
     @State var selectedDateRange: DateRangeOption = .week
     let chartType: ChartType
@@ -37,4 +35,8 @@ struct ChartDetailView: View {
                 BarChartScreen(selectedRange: selectedDateRange)
         }
     }
+}
+
+#Preview {
+    ChartDetailView(selectedDateRange: .week, chartType: .bar)
 }

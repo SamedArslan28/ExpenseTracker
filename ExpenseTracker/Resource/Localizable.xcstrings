@@ -7,6 +7,16 @@
     "-%@" : {
 
     },
+    "%.2f %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$.2f %2$@"
+          }
+        }
+      }
+    },
     "%lf" : {
 
     },
@@ -47,6 +57,9 @@
 
     },
     "Charts" : {
+
+    },
+    "Charts may appear incomplete if data is missing for some dates." : {
 
     },
     "Clear All Data" : {
@@ -97,6 +110,9 @@
     "Expense Name" : {
 
     },
+    "Expenses on" : {
+
+    },
     "Export Data to CSV" : {
 
     },
@@ -118,16 +134,13 @@
     "Is Expense" : {
 
     },
-    "Month" : {
-
-    },
     "Name" : {
 
     },
     "No Data Found" : {
 
     },
-    "No expenses found for the selected category." : {
+    "No expenses found for the selected range." : {
 
     },
     "No Fixed Incomes" : {
@@ -163,6 +176,9 @@
     "Select Expense Date" : {
 
     },
+    "Selected" : {
+
+    },
     "Settings" : {
 
     },
@@ -173,6 +189,9 @@
 
     },
     "Total Expenses" : {
+
+    },
+    "Total expenses by category" : {
 
     },
     "Total Incomes" : {
