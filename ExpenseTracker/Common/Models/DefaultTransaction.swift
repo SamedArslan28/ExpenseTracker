@@ -10,7 +10,8 @@ import SwiftData
 
 @Model
 class DefaultTransaction: BaseTransaction {
-    @Attribute(.unique) var id: UUID
+    @Attribute(.unique)
+    var id: UUID
     var name: String
     var amount: Double
     var isExpense: Bool
