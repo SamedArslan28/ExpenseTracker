@@ -8,35 +8,33 @@
 import SwiftUI
 
 struct ChartDetailView: View {
-    @State var selectedDateRange: DateRangeOption = .week
     let chartType: ChartType
 
     var body: some View {
         VStack {
-            DateRangePickerView(selectedRange: $selectedDateRange)
-            chartView(for: chartType, selectedRange: selectedDateRange)
+            chartView(for: chartType)
         }
         .navigationTitle(chartType.title)
         .navigationBarTitleDisplayMode(.inline)
     }
 
     @ViewBuilder
-    func chartView(for type: ChartType, selectedRange: DateRangeOption) -> some View {
+    func chartView(for type: ChartType) -> some View {
         switch type {
             case .pie:
                 PieChartScreen()
             case .bar:
-                BarChartScreen(selectedRange: selectedDateRange)
+                BarChartScreen()
             case .line:
-                BarChartScreen(selectedRange: selectedDateRange)
+                BarChartScreen()
             case .gauge:
-                BarChartScreen(selectedRange: selectedDateRange)
+                BarChartScreen()
             case .fixed:
-                BarChartScreen(selectedRange: selectedDateRange)
+                BarChartScreen()
         }
     }
 }
 
 #Preview {
-    ChartDetailView(selectedDateRange: .week, chartType: .bar)
+    ChartDetailView(chartType: .bar)
 }

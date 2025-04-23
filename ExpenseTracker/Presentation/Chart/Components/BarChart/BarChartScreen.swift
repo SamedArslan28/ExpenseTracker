@@ -13,8 +13,7 @@ struct BarChartScreen: View {
 
     @Query(DefaultTransaction.getAll) var transactions: [DefaultTransaction]
     @State private var selectedCategory: TransactionCategory = .coffee
-
-    let selectedRange: DateRangeOption
+    @State var selectedRange: DateRangeOption = .week
 
     private var filteredTransactions: [DefaultTransaction] {
         transactions.filter { $0.date >= selectedRange.fromDate && $0.category == selectedCategory }
@@ -24,6 +23,7 @@ struct BarChartScreen: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
+            DateRangePickerView(selectedRange: $selectedRange)
             CategoryPicker(selectedCategory: $selectedCategory)
             BarChartView(
                 transactions: filteredTransactions,
@@ -36,7 +36,7 @@ struct BarChartScreen: View {
 }
 
 #Preview {
-    BarChartScreen(selectedRange: .week)
+    BarChartScreen()
 }
 
 

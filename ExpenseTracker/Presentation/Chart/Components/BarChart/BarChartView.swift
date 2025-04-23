@@ -9,6 +9,8 @@ import Charts
 import SwiftUI
 
 struct BarChartView: View {
+    // MARK: - PROPERTIES
+
     @State private var rawSelectedDate: Date?
     @AppStorage("selectedCurrency") private var selectedCurrency: String = "USD"
 
@@ -23,6 +25,8 @@ struct BarChartView: View {
                                     toGranularity: selectedRange.calendarComponent)
         }
     }
+
+    // MARK: - BODY
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -102,6 +106,6 @@ struct BarChartView: View {
 }
 
 #Preview {
-    BarChartScreen(selectedRange: .week)
+    BarChartScreen()
 }
 
