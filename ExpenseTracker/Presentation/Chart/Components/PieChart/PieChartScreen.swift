@@ -13,49 +13,25 @@ struct PieChartScreen: View {
     @Query(DefaultTransaction.getAll) var transactions: [DefaultTransaction]
     @State private var selectedAngle: Double?
 
-    var groupedData: [(category: TransactionCategory, total: Double)] {
-        let grouped = Dictionary(grouping: transactions, by: { $0.category })
-        let mapped = grouped.map { (category, items) in
-            (category, items.reduce(0) { $0 + $1.amount })
-        }
-        return mapped.sorted { $0.1 > $1.1 }.prefix(5).map { $0 }
-    }
-
-    var angleRanges: [(category: TransactionCategory, range: Range<Double>)] {
-        var cumulative = 0.0
-        return groupedData.map { (category, total) in
-            let newCumulative = cumulative + total
-            let range = cumulative..<newCumulative
-            cumulative = newCumulative
-            return (category, range)
-        }
-    }
-
-    var selectedCategory: (category: TransactionCategory, total: Double)? {
-        guard let selectedAngle else { return nil }
-        for (index, angleRange) in angleRanges.enumerated() {
-            if angleRange.range.contains(selectedAngle) {
-                return groupedData[index]
-            }
-        }
-        return nil
-    }
-
-    var displayedCategory: (category: TransactionCategory, total: Double)? {
-        selectedCategory ?? groupedData.first
+    private var viewModel: PieChartViewModel {
+        PieChartViewModel(transactions: transactions, selectedAngle: selectedAngle)
     }
 
     var body: some View {
-        Chart(groupedData, id: \.category) { entry in
+        Chart(viewModel.groupedData, id: \.category) { entry in
             SectorMark(
                 angle: .value("Amount", entry.total),
                 innerRadius: .ratio(0.618),
                 angularInset: 1
             )
             .cornerRadius(5)
-            .foregroundStyle(entry.category.color)
-            .opacity(entry.category == (selectedCategory?.category ?? groupedData.first?.category) ? 1 : 0.3)
+            .foregroundStyle(by: .value("Category", entry.category.rawValue))
+            .opacity(entry.category == viewModel.highlightedCategory ? 1 : 0.3)
         }
+        .chartForegroundStyleScale(
+            domain: viewModel.groupedData.map { $0.category.rawValue },
+            range: viewModel.groupedData.map { $0.category.color }
+        )
         .chartAngleSelection(value: $selectedAngle)
         .chartXAxis(.hidden)
         .chartYAxis(.hidden)
@@ -64,20 +40,13 @@ struct PieChartScreen: View {
         .chartBackground { proxy in
             GeometryReader { geo in
                 let frame = geo[proxy.plotFrame!]
-                VStack(spacing: 4) {
-                    if let displayed = displayedCategory {
-                        Text(displayed.category.rawValue)
-                            .font(.callout)
-                            .foregroundStyle(.secondary)
-                        Text("$\(displayed.total, specifier: "%.2f")")
-                            .font(.title2.bold())
-                    }
-                }
-                .position(x: frame.midX, y: frame.midY)
+                PieChartCenterLabel(category: viewModel.displayedCategory, frame: frame)
             }
         }
     }
 }
+
+
 
 #Preview {
     PieChartScreen()
