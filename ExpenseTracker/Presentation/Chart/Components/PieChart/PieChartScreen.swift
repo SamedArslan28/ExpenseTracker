@@ -32,7 +32,7 @@ struct PieChartScreen: View {
             domain: viewModel.groupedData.map { $0.category.rawValue },
             range: viewModel.groupedData.map { $0.category.color }
         )
-        .chartAngleSelection(value: $selectedAngle)
+        .chartAngleSelection(value: $selectedAngle.animation(.easeInOut))
         .chartXAxis(.hidden)
         .chartYAxis(.hidden)
         .chartLegend(position: .bottom, spacing: 12)
@@ -45,8 +45,6 @@ struct PieChartScreen: View {
         }
     }
 }
-
-
 
 #Preview {
     PieChartScreen()
