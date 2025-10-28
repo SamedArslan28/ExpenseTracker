@@ -2,13 +2,21 @@ import SwiftUI
 import SwiftData
 
 struct CustomTabBarView: View {
+    @State private var selectedTab: Tabs = .home
+
     var body: some View {
-        TabView {
-            Tab("Home", systemImage: "house") {
+        TabView(selection: $selectedTab) {
+            Tab("Home", systemImage: "house", value: .home) {
                 HomeScreen()
             }
 
-            Tab("Categories", systemImage: "square.grid.2x2") {
+            Tab("Chart", systemImage: "chart.pie", value: .chart) {
+                NavigationStack {
+                    ChartScreen()
+                }
+            }
+            
+            Tab(value: .category, role: .search) {
                 NavigationStack {
                     CategoriesScreen()
                         .navigationTitle("Categories")
@@ -18,18 +26,16 @@ struct CustomTabBarView: View {
                 }
             }
 
-            Tab("Chart", systemImage: "chart.pie") {
-                NavigationStack {
-                    ChartScreen()
-                }
-            }
-
-            Tab("Settings", systemImage: "gear") {
+            Tab("Settings", systemImage: "gear", value: .settings) {
                 NavigationStack {
                     SettingsScreen()
                 }
             }
         }
-        .tabViewStyle(.sidebarAdaptable)
+        
     }
+}
+
+#Preview {
+    CustomTabBarView()
 }

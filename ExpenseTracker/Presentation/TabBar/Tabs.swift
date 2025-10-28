@@ -10,5 +10,5 @@ enum Tabs: Hashable {
     case category
     case chart
     case home
-    case profile
+    case settings
 }
