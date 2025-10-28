@@ -5,7 +5,7 @@
 //  Created by Abdulsamed Arslan on 8.04.2025.
 //
 
-import SwiftUICore
+import SwiftUI
 
 enum TransactionCategory: String, CaseIterable, Codable {
 

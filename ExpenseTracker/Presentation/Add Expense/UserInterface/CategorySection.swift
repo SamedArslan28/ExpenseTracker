@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct CategorySection: View {
     @Binding var viewModel: AddTransactionViewModel
     let categories = TransactionCategory.allCases.filter { $0 != .fixedExpenses }

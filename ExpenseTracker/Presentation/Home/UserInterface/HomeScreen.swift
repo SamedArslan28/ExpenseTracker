@@ -7,6 +7,7 @@ struct HomeScreen: View {
     var body: some View {
         CurrentBalanceView()
         TransactionsScrollView(items: items)
+            .padding(.horizontal, 20)
     }
 }
 

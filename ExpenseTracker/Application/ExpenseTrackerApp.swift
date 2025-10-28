@@ -10,14 +10,16 @@ import OSLog
 import TipKit
 import SwiftData
 
-let logger = os.Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.abdulsamedarslan.ExpenseTracker",
-                       category: "App")
+let logger = os.Logger(
+    subsystem: Bundle.main.bundleIdentifier ?? "com.abdulsamedarslan.ExpenseTracker",
+    category: "App"
+)
 
 @main
 struct ExpenseTrackerApp: App {
     @AppStorage("selectedTheme")
     private var selectedTheme: Appearance = .system
-
+    
     var body: some Scene {
         WindowGroup {
             CustomTabBarView()
@@ -30,7 +32,7 @@ struct ExpenseTrackerApp: App {
                             ]
         )
     }
-
+    
     init() {
         do {
             try Tips.configure()
@@ -39,6 +41,6 @@ struct ExpenseTrackerApp: App {
             logger.error("Error initializing tips: \(error)")
         }
     }
-
+    
 }
 

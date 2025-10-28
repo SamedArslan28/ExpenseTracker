@@ -26,7 +26,6 @@ struct TransactionsScrollView: View {
                             }
                         }
                     )
-                    .padding(.horizontal, 20)
                     .padding(.vertical, 4)
                     .visualEffect { content, proxy in
                         let frame: CGRect = proxy.frame(in: .scrollView(axis: .vertical))

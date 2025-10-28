@@ -18,7 +18,7 @@ struct TransactionItemRow: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 12)
-                .foregroundStyle(.ultraThinMaterial)
+                .foregroundStyle(.regularMaterial)
             HStack {
                 Image(systemName: transaction.category.iconName)
                     .resizable()
@@ -40,9 +40,12 @@ struct TransactionItemRow: View {
         }
         .contentShape(RoundedRectangle(cornerRadius: 12))
         .contextMenu {
-            Button("Edit") {
+            Button {
                 onEditTapped()
+            } label: {
+                Label("Edit", systemImage: "pencil")
             }
+
             Button(role: .destructive) {
                 onDeleteTapped()
             } label: {
