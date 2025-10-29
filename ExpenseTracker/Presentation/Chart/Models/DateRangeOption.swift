@@ -8,9 +8,9 @@
 import SwiftUI
 
 enum DateRangeOption: String, CaseIterable {
-    case week = "Last 7 Days"
-    case month = "Last 30 Days"
-    case year = "This Year"
+    case week = "7 Days"
+    case month = "30 Days"
+    case year = "Year"
 
     var calendarComponent: Calendar.Component {
         switch self {
@@ -44,5 +44,20 @@ enum DateRangeOption: String, CaseIterable {
                 return "MMM yyyy"
         }
     }
+    
+    var endDate: Date {
+            let today = Calendar.current.startOfDay(for: Date())
+            switch self {
+            case .week:
+                // "Last 7 Days" on a future chart means "Next 7 Days"
+                return Calendar.current.date(byAdding: .day, value: 7, to: today)!
+            case .month:
+                // "Last 30 Days" on a future chart means "Next 30 Days"
+                return Calendar.current.date(byAdding: .day, value: 30, to: today)!
+            case .year:
+                // "This Year" on a future chart means "Next 12 Months"
+                return Calendar.current.date(byAdding: .month, value: 12, to: today)!
+            }
+        }
 }
 

@@ -23,19 +23,14 @@ struct ChartDetailView: View {
         switch type {
             case .pie:
                 PieChartScreen()
-            case .bar:
-                BarChartScreen()
             case .line:
                 LineChartScreen()
-            // TODO: Will fix these
-            case .gauge:
-                BarChartScreen()
             case .fixed:
-                BarChartScreen()
+                FixedTransactionChartScreen()
         }
     }
 }
 
 #Preview {
-    ChartDetailView(chartType: .bar)
+    ChartDetailView(chartType: .line)
 }
