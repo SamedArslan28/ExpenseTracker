@@ -9,10 +9,10 @@ import SwiftUI
 
 struct BudgetSection: View {
 
-
     var body: some View {
         Section(header: Text("Budget")) {
-            NavigationLink("Add Fixed Income", destination: FixedIncomeView())
+            NavigationLink("Add Fixed Income",
+                           destination: FixedTransactionsView())
         }
     }
 }
