@@ -8,25 +8,25 @@
 import SwiftUI
 
 struct TransactionsDetailView: View {
+    var isIncome: Bool
+    var amount: Double
+    
     @AppStorage("selectedCurrency") private var selectedCurrency: String = "USD"
-    @State private var value: Int = 0
-    var isIncome: Bool = false
-
+    
     var body: some View {
-        HStack(alignment: .top) {
-            Image(isIncome ? "arrow.up.forward.circle.fill" : "arrow.down.left.circle.fill" )
-            VStack(alignment: .leading) {
-                Text(isIncome ? "Income" : "Expense")
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 8) {
+                Image(systemName: isIncome ? "arrow.down.circle.fill" : "arrow.up.circle.fill")
                     .font(.title3)
-                Text(value.formatted(.currency(code: selectedCurrency)).description)
+                    .foregroundStyle(isIncome ? .green : .red)
+                Text(isIncome ? "Income" : "Expense")
                     .font(.headline)
-                    .foregroundStyle(.white)
-                    .multilineTextAlignment(.trailing)
+                    .foregroundStyle(.primary)
             }
+            Text(amount.formatted(.currency(code: selectedCurrency)))
+                .font(.title3)
+                .foregroundStyle(.white)
+                .fontWeight(.semibold)
         }
     }
-}
-
-#Preview {
-    TransactionsDetailView()
 }

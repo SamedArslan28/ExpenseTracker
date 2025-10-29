@@ -1,17 +1,43 @@
-//
-//  CurrentBalanceView.swift
-//  ExpenseTracker
-//
-//  Created by Abdulsamed Arslan on 9.12.2024.
-//
-
 import SwiftUI
+import SwiftData
 
 struct CurrentBalanceView: View {
-    @State private var currentBalance: Int = 32_465
     @AppStorage("selectedCurrency") private var selectedCurrency: String = "USD"
     @State private var showAddTransactionSheet: Bool = false
+    
+    // 1. Query all transactions
+    @Query(DefaultTransaction.getAll) private var transactions: [DefaultTransaction]
 
+    // 2. Calculate all-time total balance
+    private var totalBalance: Double {
+        transactions.reduce(0) { total, transaction in
+            total + (transaction.isExpense ? -transaction.amount : transaction.amount)
+        }
+    }
+    
+    // 3. Get transactions just for the current month
+    private var currentMonthTransactions: [DefaultTransaction] {
+        let calendar = Calendar.current
+        let today = Date()
+        return transactions.filter {
+            calendar.isDate($0.date, equalTo: today, toGranularity: .month) &&
+            calendar.isDate($0.date, equalTo: today, toGranularity: .year)
+        }
+    }
+    
+    // 4. Calculate monthly income
+    private var monthlyIncome: Double {
+        currentMonthTransactions
+            .filter { !$0.isExpense }
+            .reduce(0) { $0 + $1.amount }
+    }
+    
+    // 5. Calculate monthly expenses
+    private var monthlyExpenses: Double {
+        currentMonthTransactions
+            .filter { $0.isExpense }
+            .reduce(0) { $0 + $1.amount }
+    }
 
     var body: some View {
         ZStack {
@@ -29,15 +55,20 @@ struct CurrentBalanceView: View {
                 Text("Current Balance")
                     .font(.title3)
                     .foregroundStyle(.thinMaterial)
-                Text(currentBalance.formatted(.currency(code: selectedCurrency)).description)
+                
+                // Now uses the dynamic totalBalance
+                Text(totalBalance.formatted(.currency(code: selectedCurrency)))
                     .font(.largeTitle)
                     .foregroundStyle(.white)
+                
                 Text(Date().formatted(.dateTime.year().month(.wide)))
                     .foregroundStyle(.white)
+                
                 HStack {
-                    TransactionsDetailView(isIncome: true)
+                    // Now passes the dynamic amounts
+                    TransactionsDetailView(isIncome: true, amount: monthlyIncome)
                     Spacer()
-                    TransactionsDetailView(isIncome: false)
+                    TransactionsDetailView(isIncome: false, amount: monthlyExpenses)
                 }
             }
         }
@@ -61,12 +92,9 @@ struct CurrentBalanceView: View {
         )
         .sheet(isPresented: $showAddTransactionSheet) {
             NavigationStack {
+                // This view will automatically get the modelContext
                 AddTransactionView()
             }
         }
     }
-}
-
-#Preview {
-    CurrentBalanceView()
 }
