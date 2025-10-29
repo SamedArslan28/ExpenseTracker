@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct AnnotationView: View {
+    @AppStorage("selectedCurrency") var selectedCurrency: String = Locale.current.currencySymbol ?? "$"
+
     let date: Date
     let amount: Double
-    let currency: String
     let selectedRange: DateRangeOption
 
     var body: some View {
@@ -20,7 +21,7 @@ struct AnnotationView: View {
                     .font(.headline)
                     .foregroundColor(.primary)
 
-                Text("\(amount, specifier: "%.2f") \(currency)")
+                Text("\(amount, specifier: "%.2f") \(selectedCurrency)")
                     .font(.subheadline.weight(.semibold))
                     .foregroundColor(.primary)
             }

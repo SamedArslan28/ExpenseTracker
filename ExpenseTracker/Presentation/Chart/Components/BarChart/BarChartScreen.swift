@@ -35,8 +35,21 @@ struct BarChartScreen: View {
     }
 }
 
+
 #Preview {
-    BarChartScreen()
+    do {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(for: DefaultTransaction.self, configurations: config)
+        let context = container.mainContext
+        let mockData = DefaultTransaction.mockTransactions
+        for transaction in mockData {
+            context.insert(transaction)
+        }
+        return BarChartScreen()
+            .modelContainer(container)
+    } catch {
+        return Text("Failed to create preview container: \(error.localizedDescription)")
+    }
 }
 
 

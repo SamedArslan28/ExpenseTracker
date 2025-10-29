@@ -26,7 +26,8 @@ struct ChartDetailView: View {
             case .bar:
                 BarChartScreen()
             case .line:
-                BarChartScreen()
+                LineChartScreen()
+            // TODO: Will fix these
             case .gauge:
                 BarChartScreen()
             case .fixed:

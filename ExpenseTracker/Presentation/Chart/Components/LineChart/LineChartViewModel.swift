@@ -9,12 +9,6 @@
 import Foundation
 import SwiftData
 
-struct MonthlyExpense: Identifiable {
-    let id = UUID()
-    let date: Date
-    let amount: Double
-}
-
 @Observable
 class LineChartViewModel {
     
@@ -30,16 +24,52 @@ class LineChartViewModel {
         }
     }
     
+    var isChartDataEmpty: Bool {
+            if selectedRange == .year {
+                
+                return monthlyTotals.isEmpty
+            } else {
+                
+                return !dailyTotals.contains { $0.amount > 0 }
+            }
+        }
+    var selectedCategory: TransactionCategory = .coffee {
+            didSet {
+                updateComputedData()
+            }
+        }
+    
+    var rawSelectedDate: Date? = nil
+    
+    var selectedMonthlyData: MonthlyExpense? {
+            guard let rawSelectedDate else { return nil }
+            return monthlyTotals.first {
+                Calendar.current.isDate($0.date, equalTo: rawSelectedDate, toGranularity: .month)
+            }
+        }
+        
+        var selectedDailyData: DefaultTransaction? {
+            guard let rawSelectedDate else { return nil }
+            return dailyTotals.first {
+                Calendar.current.isDate($0.date, equalTo: rawSelectedDate, toGranularity: .day)
+            }
+        }
+    
     private(set) var monthlyTotals: [MonthlyExpense] = []
     private(set) var dailyTotals: [DefaultTransaction] = []
     
     private var filteredTransactions: [DefaultTransaction] {
-        transactions.filter { $0.date >= selectedRange.fromDate && $0.isExpense }
-    }
+            transactions.filter {
+                $0.date >= selectedRange.fromDate &&
+                $0.isExpense &&
+                $0.category == self.selectedCategory
+            }
+        }
     
-    init(selectedRange: DateRangeOption = .week) {
-        self.selectedRange = selectedRange
-    }
+    init(selectedRange: DateRangeOption = .week, selectedCategory: TransactionCategory = .coffee) {
+            self.selectedRange = selectedRange
+            self.selectedCategory = selectedCategory
+        }
     
     private func updateComputedData() {
         if selectedRange == .year {

@@ -17,7 +17,9 @@ struct PieChartScreen: View {
     @State var selectedRange: DateRangeOption = .week
 
     private var viewModel: PieChartViewModel {
-        PieChartViewModel(transactions: transactions, selectedAngle: selectedAngle, dateRange: selectedRange)
+        PieChartViewModel(transactions: transactions,
+                          selectedAngle: selectedAngle,
+                          dateRange: selectedRange)
     }
 
     var body: some View {
