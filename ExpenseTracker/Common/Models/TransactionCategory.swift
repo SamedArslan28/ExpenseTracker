@@ -24,7 +24,6 @@ enum TransactionCategory: String, CaseIterable, Codable {
     case rent = "Rent"
     case gifts = "Gifts"
     case investments = "Investments"
-    case fixedExpenses = "Fixed Expenses"
 
     var iconName: String {
         switch self {
@@ -43,7 +42,7 @@ enum TransactionCategory: String, CaseIterable, Codable {
         case .rent: return "house.fill"
         case .gifts: return "gift.fill"
         case .investments: return "chart.bar.fill"
-        case .fixedExpenses: return "doc.text.fill"
+
         }
     }
 
@@ -64,7 +63,6 @@ enum TransactionCategory: String, CaseIterable, Codable {
         case .rent: return .pink
         case .gifts: return .red.opacity(0.8)
         case .investments: return .blue.opacity(0.8)
-        case .fixedExpenses: return .gray
         }
     }
 }

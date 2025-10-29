@@ -10,7 +10,7 @@ import SwiftUI
 struct CategoryPicker: View {
     @Binding var selectedCategory: TransactionCategory
 
-    private let categories = TransactionCategory.allCases.filter { $0 != .fixedExpenses }
+    private let categories = TransactionCategory.allCases
 
     var body: some View {
         HStack {
